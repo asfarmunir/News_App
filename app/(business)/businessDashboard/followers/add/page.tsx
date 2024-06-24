@@ -19,13 +19,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid name.",
-  }),
-  name: z.string().min(8, {
+  name: z.string().min(3, {
     message: "email must be at least 8 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email.",
   }),
   phoneNumber: z.string().min(8, {
     message: "phone number must be at least 8 characters.",
@@ -39,15 +40,17 @@ const page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      phoneNumber: "",
-      location: "",
+      name: "asfar",
+      email: "asfar@asfar.com",
+      phoneNumber: "23232323",
+      location: "Islamabad Pakistan",
     },
   });
 
+  const router = useRouter();
   async function onSubmit(values) {
     console.log(values);
+    router.push("/businessDashboard/followers/add/success");
   }
   return (
     <div className=" flex flex-col w-full items-start justify-start p-5 px-4 md:px-8">
@@ -76,7 +79,7 @@ const page = () => {
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      ame
+                      Name
                     </FormLabel>
                     <FormControl>
                       <Input

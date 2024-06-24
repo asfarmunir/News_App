@@ -1,5 +1,6 @@
 import Sidebar from "@/components/shared/Sidebar";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 export default async function RootLayout({ children }) {
   return (
@@ -14,7 +15,16 @@ export default async function RootLayout({ children }) {
               2:34pm 27 May 2024
             </p>
           </div>
-          <div>Andrew Tate</div>
+          <div className=" inline-flex items-center gap-4">
+            <p className=" font-semibold">Andrew Tate</p>
+            <Image
+              src="/images/profile.png"
+              alt="Profile"
+              width={40}
+              height={40}
+              className="rounded-xl"
+            />
+          </div>
         </div>
         {children}
       </main>
