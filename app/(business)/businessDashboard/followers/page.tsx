@@ -179,7 +179,7 @@ const page = () => {
           <p className=" font-semibold text-sm text-slate-800">
             Total Followers: 532
           </p>
-          <div className="flex items-center">
+          <div className="hidden md:flex items-center">
             <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
               1-2 of pages
             </p>
