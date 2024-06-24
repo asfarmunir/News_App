@@ -22,12 +22,13 @@ const config = {
           500: "#624CF5",
           50: " #F6F8FD",
           100: "#2952e5",
-          DEFAULT: "#103fef",
+          DEFAULT: "#22333B",
           foreground: "hsl(var(--primary-foreground))",
         },
         coral: {
           500: "#15BF59",
         },
+        brown: "#C6AC8F",
 
         grey: {
           600: "#545454", // Subdued - color name in figma
