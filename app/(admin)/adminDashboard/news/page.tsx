@@ -47,13 +47,13 @@ import { Button } from "@/components/ui/button";
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
-      <Link href={"/businessDashboard/news/add"}>
+      {/* <Link href={"/businessDashboard/news/add"}>
         <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
           {" "}
           Post News{" "}
           <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
         </Button>
-      </Link>
+      </Link> */}
       <div className=" bg-white p-5 px-8 rounded-md shadow-sm w-full">
         <h2 className=" text-slate-900 font-bold text-2xl mb-4">News Posts</h2>
         <Table>

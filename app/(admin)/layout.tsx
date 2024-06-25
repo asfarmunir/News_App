@@ -2,31 +2,30 @@ import Sidebar from "@/components/shared/Sidebar";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import { RiDashboardFill } from "react-icons/ri";
-import { FaPeopleGroup } from "react-icons/fa6";
+import { BsFillSuitcaseLgFill } from "react-icons/bs";
 import { PiNewspaperFill } from "react-icons/pi";
 
 export default async function RootLayout({ children }) {
-  const businessLinks = [
+  const adminLinks = [
     {
       name: "Dashboard",
       icon: <RiDashboardFill className="w-6 h-6" />,
-      href: "/businessDashboard",
+      href: "/adminDashboard",
     },
     {
-      name: "Followers",
-      icon: <FaPeopleGroup className="w-6 h-6" />,
-      href: "/businessDashboard/followers",
+      name: "Businesses",
+      icon: <BsFillSuitcaseLgFill className="w-6 h-6" />,
+      href: "/adminDashboard/businesses",
     },
     {
       name: "News",
       icon: <PiNewspaperFill className="w-6 h-6" />,
-      href: "/businessDashboard/news",
+      href: "/adminDashboard/news",
     },
   ];
-
   return (
     <div className={`h-screen flex bg-slate-50 `}>
-      <Sidebar links={businessLinks} />
+      <Sidebar links={adminLinks} />
 
       <main className=" w-full  overflow-auto flex flex-col items-start justify-start py-3">
         <div className="flex items-center justify-between shadow-sm bg-white py-4 px-5 md:px-10 w-full">

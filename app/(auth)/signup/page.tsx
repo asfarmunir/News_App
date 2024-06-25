@@ -90,7 +90,7 @@ const page = () => {
 
   return (
     <div className="flex items-center justify-center min-h-svh w-full">
-      <div className="overflow-hidden hidden lg:block w-[40%] bg-yellow-200 h-screen ">
+      <div className="overflow-hidden relative hidden lg:block w-[40%] bg-yellow-200 h-screen ">
         <Image
           src="/images/box.png"
           alt="Login"
@@ -101,7 +101,7 @@ const page = () => {
           object-center
           w-full
           h-full
-          relative
+          
           "
         />
         <Image
@@ -111,7 +111,6 @@ const page = () => {
           height={530}
           className="
            absolute
-         
            top-0
            left-20
 
@@ -120,7 +119,9 @@ const page = () => {
       </div>
       <div className=" w-full md:w-[60%] max-h-screen overflow-y-auto h-full flex items-start justify-start p-8 pt-24 px-10 md:px-20  flex-col gap-4  ">
         <AlertDialog>
-          <AlertDialogTrigger ref={triggerRef}>Open</AlertDialogTrigger>
+          <AlertDialogTrigger ref={triggerRef} className=" hidden">
+            Open
+          </AlertDialogTrigger>
           <AlertDialogContent className=" bg-white flex flex-col items-center justify-center">
             <Image
               src="/images/reqSent.png"

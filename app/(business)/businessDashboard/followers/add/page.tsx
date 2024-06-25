@@ -72,7 +72,7 @@ const page = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className=" w-full"
           >
-            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-16">
+            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-16">
               <FormField
                 control={form.control}
                 name="name"
@@ -114,7 +114,7 @@ const page = () => {
                 )}
               />
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-16">
+            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-16">
               <FormField
                 control={form.control}
                 name="phoneNumber"

@@ -1,5 +1,8 @@
 import React from "react";
 import { PiNewspaperFill } from "react-icons/pi";
+import { IoPersonAdd } from "react-icons/io5";
+import { BsFillSuitcaseLgFill } from "react-icons/bs";
+
 import Image from "next/image";
 const page = () => {
   return (
@@ -7,12 +10,10 @@ const page = () => {
       <div className=" flex items-center justify-normal gap-2 md:gap-6  p-4 w-full">
         <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
           <p className=" font-thin text-xs md:text-base text-slate-600">
-            Total News
+            Total Businesses
           </p>
-          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-            1200
-          </h1>
-          <PiNewspaperFill className="w-7 md:w-10 bg-brown/60 p-1 md:p-2 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">345</h1>
+          <BsFillSuitcaseLgFill className="w-7 md:w-10 bg-brown/60 p-1 md:p-2.5 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
         </div>
         <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
           <p className=" font-thin text-xs md:text-base text-slate-600">
@@ -25,21 +26,19 @@ const page = () => {
         </div>
         <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
           <p className=" font-thin text-xs md:text-base text-slate-600">
-            Total News
+            Pending Requests
           </p>
-          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-            1200
-          </h1>
-          <PiNewspaperFill className="w-7 md:w-10 bg-brown/60 p-1 md:p-2 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">342</h1>
+          <IoPersonAdd className="w-7 md:w-10 bg-brown/60 p-1 md:p-2.5 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
         </div>
         <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
           <p className=" font-thin text-xs md:text-base text-slate-600">
-            Total News
+            Accepted Requests
           </p>
           <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-            1200
+            1220
           </h1>
-          <PiNewspaperFill className="w-7 md:w-10 bg-brown/60 p-1 md:p-2 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+          <IoPersonAdd className="w-7 md:w-10 bg-brown/60 p-1 md:p-2.5 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
         </div>
       </div>
       <div className=" bg-white p-5 rounded-lg w-full">
@@ -56,7 +55,7 @@ const page = () => {
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Most News(month)
+                Max Registrations(month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">March</h3>
             </div>
@@ -71,7 +70,7 @@ const page = () => {
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Average Posting (month)
+                Average Registrations (month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">2000 SAR</h3>
             </div>
@@ -86,7 +85,7 @@ const page = () => {
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Least News(month)
+                Least Registrations(month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">April</h3>
             </div>

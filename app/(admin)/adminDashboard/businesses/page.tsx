@@ -32,34 +32,51 @@ import {
 } from "@/components/ui/pagination";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { PiWarningOctagonLight } from "react-icons/pi";
+
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
-      <Link href={"/businessDashboard/followers/add"}>
-        <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
-          {" "}
-          Add Follower{" "}
-          <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
-        </Button>
-      </Link>
+      <div className="flex items-center justify-start gap-4  flex-col md:flex-row">
+        <Link href={"/adminDashboard/businesses/add"}>
+          <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
+            {" "}
+            Add Business{" "}
+            <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
+          </Button>
+        </Link>
+        <Link href={"/businessDashboard/followers/add"}>
+          <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
+            {" "}
+            Join Request{" "}
+            <FaArrowRightLong className="w-4 h-4 ml-5 text-white   rounded-lg " />
+          </Button>
+        </Link>
+      </div>
       <div className=" bg-white p-5 px-8 rounded-md shadow-sm w-full">
-        <h2 className=" text-slate-900 font-bold text-2xl mb-4">Followers</h2>
+        <h2 className=" text-slate-900 font-bold text-2xl mb-4">Businesses</h2>
         <Table>
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className=" bg-brown/50">
             <TableRow>
               <TableHead className=" text-slate-950 font-bold">PID</TableHead>
               <TableHead className=" text-slate-950 font-bold">Name</TableHead>
+              <TableHead className=" text-slate-950 font-bold">Owner</TableHead>
               <TableHead className=" text-slate-950 font-bold">
                 Phone Number
               </TableHead>
               <TableHead className=" text-slate-950 font-bold">
-                Location
-              </TableHead>
-              <TableHead className=" text-slate-950 font-bold">
-                Followed On
+                Category
               </TableHead>
               <TableHead className=" text-center text-slate-950 font-bold">
+                Joined On
+              </TableHead>
+              <TableHead className=" text-center inline-flex items-center gap-1 text-slate-950 font-bold">
+                Posts{" "}
+                <PiWarningOctagonLight className="w-5 text-indigo-600 font-extrabold h-5" />
+              </TableHead>
+              <TableHead className=" text-center  text-slate-950 font-bold">
                 Actions
               </TableHead>
             </TableRow>
@@ -70,16 +87,22 @@ const page = () => {
                 #123
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                Nike
+              </TableCell>
+              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 John Doe
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                +234 123 456 7890
+                032042333
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                Lagos
+                shoes
               </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                27 May 2024
+              <TableCell className="font-semibold border-b pb-4 pt-4 border-slate-200">
+                27/03/2024
+              </TableCell>
+              <TableCell className="font-semibold underline border-b pb-4 pt-4 text-indigo-500 border-slate-200">
+                300
               </TableCell>
               <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
                 <DropdownMenu>
@@ -90,12 +113,12 @@ const page = () => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
-                      Hide News
+                      Restrict Business
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                      Block User
+                      Block Business
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -106,16 +129,22 @@ const page = () => {
                 #123
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                Nike
+              </TableCell>
+              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 John Doe
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                +234 123 456 7890
+                032042333
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                Lagos
+                shoes
               </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                27 May 2024
+              <TableCell className="font-semibold border-b pb-4 pt-4 border-slate-200">
+                27/03/2024
+              </TableCell>
+              <TableCell className="font-semibold underline border-b pb-4 pt-4 text-indigo-500 border-slate-200">
+                300
               </TableCell>
               <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
                 <DropdownMenu>
@@ -126,12 +155,12 @@ const page = () => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
-                      Hide News
+                      Restrict Business
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                      Block User
+                      Block Business
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -142,16 +171,22 @@ const page = () => {
                 #123
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                Nike
+              </TableCell>
+              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 John Doe
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                +234 123 456 7890
+                032042333
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                Lagos
+                shoes
               </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                27 May 2024
+              <TableCell className="font-semibold border-b pb-4 pt-4 border-slate-200">
+                27/03/2024
+              </TableCell>
+              <TableCell className="font-semibold underline border-b pb-4 pt-4 text-indigo-500 border-slate-200">
+                300
               </TableCell>
               <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
                 <DropdownMenu>
@@ -162,12 +197,12 @@ const page = () => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
-                      Hide News
+                      Restrict Business
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                      Block User
+                      Block Business
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

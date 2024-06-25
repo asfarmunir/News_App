@@ -1,31 +1,13 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import Navlinks from "./Navlinks";
-import { RiDashboardFill } from "react-icons/ri";
-import { FaPeopleGroup } from "react-icons/fa6";
-import { PiNewspaperFill } from "react-icons/pi";
 import { MdHelp } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
 
-const Sidebar = () => {
-  const businessLinks = [
-    {
-      name: "Dashboard",
-      icon: <RiDashboardFill className="w-6 h-6" />,
-      href: "/businessDashboard",
-    },
-    {
-      name: "Followers",
-      icon: <FaPeopleGroup className="w-6 h-6" />,
-      href: "/businessDashboard/followers",
-    },
-    {
-      name: "News",
-      icon: <PiNewspaperFill className="w-6 h-6" />,
-      href: "/businessDashboard/news",
-    },
-  ];
+const Sidebar = ({ links }) => {
+  console.log("links", links);
 
   return (
     <div>
@@ -33,14 +15,14 @@ const Sidebar = () => {
         {/* SideBar */}
         <div
           id="menu"
-          className="hidden relative md:block bg-primary rounded-tr-3xl rounded-br-3xl  h-full   text-slate-300  w-64  overflow-y-auto pb-8"
+          className="hidden relative lg:block bg-primary rounded-tr-3xl rounded-br-3xl  h-full   text-slate-300  w-64  overflow-y-auto pb-8"
         >
           <div id="logo" className="my-16 px-8">
             <h1 className="text-lg md:text-2xl font-bold pb-2 text-white mb-2">
               News App
             </h1>
           </div>
-          <Navlinks links={businessLinks} />
+          <Navlinks links={links} />
           <Link
             className={
               "flex items-center gap-4 px-12 mt-2 w-full p-4 text-slate-200  "
@@ -60,7 +42,7 @@ const Sidebar = () => {
           </button>
         </div>
         {/* Movbile Sidebar */}
-        <div className="flex md:hidden ">
+        <div className="flex lg:hidden ">
           <input
             type="checkbox"
             id="drawer-toggle"
@@ -80,7 +62,7 @@ const Sidebar = () => {
                 News App
               </h1>
             </div>
-            <Navlinks links={businessLinks} />
+            <Navlinks links={links} />
             <Link
               className={
                 "flex items-center gap-4 px-12 mt-2 w-full p-4 text-slate-200  "

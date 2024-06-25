@@ -20,20 +20,19 @@ import { Input } from "@/components/ui/input";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
   name: z.string().min(3, {
-    message: "Title must be at least 3 characters.",
+    message: "email must be at least 8 characters.",
   }),
-  link: z.string().min(3, {
-    message: "Title must be at least 3 characters.",
+  ownerName: z.string().min(3, {
+    message: "owner name must be at least 8 characters.",
   }),
-  date: z.string().min(8, {
-    message: "Please enter a valid date.",
+  phoneNumber: z.string().min(8, {
+    message: "phone number must be at least 8 characters.",
   }),
-  description: z.string().min(15, {
-    message: "Description must be at least 15 characters.",
+  category: z.string().min(4, {
+    message: "category must be at least 4 characters.",
   }),
 });
 
@@ -41,26 +40,26 @@ const page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "title",
-      link: "www.link.com",
-      description: "description",
-      date: "2022-12-12",
+      name: "Nike",
+      ownerName: "fameer",
+      phoneNumber: "23232323",
+      category: "sports",
     },
   });
 
   const router = useRouter();
   async function onSubmit(values) {
     console.log(values);
-    router.push("/businessDashboard/news/add/success");
+    router.push("/adminDashboard/businesses/add/success");
   }
   return (
     <div className=" flex flex-col w-full items-start justify-start p-5 px-4 md:px-8">
       <Link
-        href={"/businessDashboard/followers"}
+        href={"/adminDashboard/businesses"}
         className="flex items-center justify-start w-full mt-4"
       >
         <IoArrowBack className="w-6 h-6" />
-        <h2 className="text-xl font-normal ml-4">Add Follower</h2>
+        <h2 className="text-xl font-normal ml-4">Add Business</h2>
       </Link>
 
       <Form {...form}>
@@ -73,20 +72,20 @@ const page = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className=" w-full"
           >
-            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-20">
+            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-16">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Title
+                      Name
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Name"
                         {...field}
-                        className="shadow appearance-none border mr-0 md:mr-6  rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -96,16 +95,16 @@ const page = () => {
 
               <FormField
                 control={form.control}
-                name="link"
+                name="ownerName"
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Link
+                      Owner Name
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="link"
-                        placeholder="link"
+                        type="ownerName"
+                        placeholder="ownerName"
                         {...field}
                         className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
@@ -115,20 +114,21 @@ const page = () => {
                 )}
               />
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-between w-full">
+            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-16">
               <FormField
                 control={form.control}
-                name="date"
+                name="phoneNumber"
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Date
+                      Phone Number
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="date"
+                        type="number"
+                        placeholder="  Phone Number"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full md:w-[45%] py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -136,18 +136,18 @@ const page = () => {
                 )}
               />
 
-              {/* <FormField
+              <FormField
                 control={form.control}
-                name="location"
+                name="category"
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Location
+                      Category
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="text"
-                        placeholder="Location"
+                        placeholder="category"
                         {...field}
                         className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
@@ -155,39 +155,13 @@ const page = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
+              />
             </div>
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem className="mb-4 w-full">
-                  <FormLabel className="block text-lg text-gray-600  mb-2">
-                    Description
-                  </FormLabel>
-                  <FormControl>
-                    {/* <Input
-                      type="text"
-                      placeholder="description"
-                      {...field}
-                      className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    /> */}
-                    <Textarea
-                      placeholder="description"
-                      {...field}
-                      className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full md:w-3/4  h-64 py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             <div className="flex flex-col w-full mt-2 items-center justify-center">
               <Button
                 type="submit"
-                className="bg-slate-900 w-full rounded-lg hover:bg-slate-700 mt-6 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
+                className="bg-slate-900 w-full rounded-lg hover:bg-slate-700 mt-3 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
               >
                 {/* {loading ? (
                       <ColorRing
@@ -206,7 +180,7 @@ const page = () => {
                         ]}
                       />
                     ) : ( */}
-                <span className=" capitalize">Add Post</span>
+                <span className=" capitalize">Add Business</span>
                 {/* )} */}
               </Button>
             </div>
