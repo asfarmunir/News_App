@@ -9,17 +9,63 @@ export default async function RootLayout({ children }) {
   const businessLinks = [
     {
       name: "Dashboard",
-      icon: <RiDashboardFill className="w-6 h-6" />,
+      icon: [
+        <Image
+          key={1}
+          src="/icons/dashboard.svg"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+        <Image
+          key={2}
+          src="/icons/dashboardWhite.png"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+      ],
       href: "/businessDashboard",
     },
     {
       name: "Followers",
-      icon: <FaPeopleGroup className="w-6 h-6" />,
+      icon: [
+        <Image
+          key={1}
+          src="/icons/followers.svg"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+        <Image
+          key={2}
+          src="/icons/followersWhite.png"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+      ],
+
       href: "/businessDashboard/followers",
     },
     {
       name: "News",
-      icon: <PiNewspaperFill className="w-6 h-6" />,
+      icon: [
+        <Image
+          key={1}
+          src="/icons/newspaper.svg"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+        <Image
+          key={2}
+          src="/icons/newspaperWhite.png"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+      ],
       href: "/businessDashboard/news",
     },
   ];
@@ -28,8 +74,8 @@ export default async function RootLayout({ children }) {
     <div className={`h-screen flex bg-slate-50 `}>
       <Sidebar links={businessLinks} />
 
-      <main className=" w-full  overflow-auto flex flex-col items-start justify-start py-3">
-        <div className="flex items-center justify-between shadow-sm bg-white py-4 px-5 md:px-10 w-full">
+      <main className=" w-full  overflow-auto flex flex-col items-start justify-start pb-3">
+        <div className="flex items-center justify-between shadow-sm bg-white pb-4 py-3 px-5 md:px-10 w-full">
           <div className="flex flex-col">
             <h2 className=" text-lg md:text-xl font-bold">Hello Andrew</h2>
             <p className=" text-xs md:text-sm text-slate-700 font-thin">

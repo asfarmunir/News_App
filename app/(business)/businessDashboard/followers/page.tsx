@@ -66,7 +66,7 @@ const page = () => {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200 text-slate-400">
                 #123
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
@@ -78,8 +78,8 @@ const page = () => {
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 Lagos
               </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                27 May 2024
+              <TableCell className="font-bold border-b pb-4 pt-4 border-slate-200">
+                27/03/2024
               </TableCell>
               <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
                 <DropdownMenu>
@@ -89,84 +89,12 @@ const page = () => {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
+                    <DropdownMenuItem className="bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-12 py-3">
                       Hide News
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
 
-                    <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                      Block User
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                #123
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                John Doe
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                +234 123 456 7890
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                Lagos
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                27 May 2024
-              </TableCell>
-              <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <FaAngleDown className="w-7 h-7 p-1.5 border border-slate-300 hover:border-slate-500 rounded-full text-slate-900" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
-                      Hide News
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                      Block User
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                #123
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                John Doe
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                +234 123 456 7890
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                Lagos
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                27 May 2024
-              </TableCell>
-              <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <FaAngleDown className="w-7 h-7 p-1.5 border border-slate-300 hover:border-slate-500 rounded-full text-slate-900" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
-                      Hide News
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
+                    <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-12 py-3">
                       Block User
                     </DropdownMenuItem>
                   </DropdownMenuContent>

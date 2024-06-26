@@ -48,19 +48,21 @@ const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
       <Link href={"/businessDashboard/news/add"}>
-        <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
+        <Button className=" ml-2 md:ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
           {" "}
           Post News{" "}
-          <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
+          <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-6 md:ml-8 text-black bg-brown  rounded-lg " />
         </Button>
       </Link>
-      <div className=" bg-white p-5 px-8 rounded-md shadow-sm w-full">
+      <div className=" bg-white p-5 px-3 md:px-8 rounded-md shadow-sm w-full">
         <h2 className=" text-slate-900 font-bold text-2xl mb-4">News Posts</h2>
         <Table>
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className=" bg-brown/50">
             <TableRow>
-              <TableHead className=" text-slate-950 font-bold">PID</TableHead>
+              <TableHead className=" text-slate-950 font-bold text-center ">
+                PID
+              </TableHead>
               <TableHead className=" text-slate-950 font-bold">Title</TableHead>
               <TableHead className=" text-slate-950 font-bold">
                 Description
@@ -76,12 +78,12 @@ const page = () => {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+              <TableCell className="font-thin border-b pb-4 text-center pt-4 text-slate-400 border-slate-200">
                 #123
               </TableCell>
               <TableCell className="font-thin border-b pb-4 truncate max-w-[100px] pt-4 border-slate-200">
                 <AlertDialog>
-                  <AlertDialogTrigger className=" truncate max-w-28 ">
+                  <AlertDialogTrigger className=" truncate max-w-28 font-bold ">
                     We have got a new project to work on.
                   </AlertDialogTrigger>
                   <AlertDialogContent className=" bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
@@ -105,11 +107,11 @@ const page = () => {
                     <div className=" w-full flex items-center justify-between px-12 mb-8">
                       <Link
                         href={"/"}
-                        className=" text-indigo-400 text-sm font-thin "
+                        className=" text-indigo-400 text-sm font-bold "
                       >
                         www.google.com
                       </Link>
-                      <p className=" text-sm font-thin text-slate-600">
+                      <p className=" text-sm font-bold text-slate-600">
                         27/3/23
                       </p>
                     </div>
@@ -125,11 +127,11 @@ const page = () => {
                 aperiam cumque repellendus aliquid dolores, atque, deserunt
                 eveniet deleniti, porro corporis enim!
               </TableCell>
-              <TableCell className="font-thin text-indigo-400 border-b pb-4 pt-4 border-slate-200">
+              <TableCell className="font-semibold text-indigo-400 border-b pb-4 pt-4 border-slate-200">
                 www.google.com
               </TableCell>
-              <TableCell className="font-semibold border-b  pb-4 pt-4 border-slate-200">
-                27 May 2024
+              <TableCell className="font-bold border-b  pb-4 pt-4 border-slate-200">
+                27/03/2024
               </TableCell>
               <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
                 <DropdownMenu>
@@ -139,7 +141,7 @@ const page = () => {
                   <DropdownMenuContent>
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <button className="bg-slate-50 hover:bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
+                    <button className="bg-gray-200/70 hover:bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
                       View full details
                     </button>
                     <DropdownMenuSeparator />

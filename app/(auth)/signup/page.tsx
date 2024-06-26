@@ -117,7 +117,7 @@ const page = () => {
           "
         />
       </div>
-      <div className=" w-full md:w-[60%] max-h-screen overflow-y-auto h-full flex items-start justify-start p-8 pt-24 px-10 md:px-20  flex-col gap-4  ">
+      <div className=" w-full md:w-[60%] max-h-screen overflow-y-auto h-full flex items-start justify-start p-8 pt-24 px-10 md:px-28   flex-col gap-6  ">
         <AlertDialog>
           <AlertDialogTrigger ref={triggerRef} className=" hidden">
             Open
@@ -126,24 +126,24 @@ const page = () => {
             <Image
               src="/images/reqSent.png"
               alt="sent"
-              width={230}
-              height={230}
+              width={180}
+              height={180}
               className="
                  mb-4
                 "
             />
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-xl text-center mb-4">
+              <AlertDialogTitle className="text-2xl text-center mb-4">
                 Request Sent
               </AlertDialogTitle>
-              <p className="text-gray-600 text-sm mb-4 font-thin text-center">
+              <p className="text-gray-500  mb-4 font-thin text-center">
                 Your request for business account registration is sent,
                 Meanwhile please wait until we send you confirmation email to
                 you, so you can login then.
               </p>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className=" bg-black text-white rounded-full px-12 py-3">
+              <AlertDialogCancel className=" bg-slate-800 text-lg mt-6 text-white rounded-full px-16 py-6">
                 Okay
               </AlertDialogCancel>
               {/* <AlertDialogAction>Okay</AlertDialogAction> */}
@@ -171,21 +171,21 @@ const page = () => {
             <form
               id="container"
               onSubmit={form.handleSubmit(onSubmit)}
-              className=" w-full gap-5"
+              className=" w-full gap-8"
             >
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
+                    <FormLabel className="block text-lg text-gray-600 font-thin mb-2">
                       Email
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -197,14 +197,14 @@ const page = () => {
                 name="BusinessOwnerName"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
+                    <FormLabel className="block text-lg text-gray-600 font-thin mb-2">
                       Business Owner Name
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Business Owner Name"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -217,14 +217,14 @@ const page = () => {
                 name="BusinessName"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
+                    <FormLabel className="block text-lg text-gray-600 font-thin mb-2">
                       Business Name
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Business Name"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -236,14 +236,14 @@ const page = () => {
                 name="BusinessCategory"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
+                    <FormLabel className="block text-lg text-gray-600 font-thin mb-2">
                       Business Category
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Business Category"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -256,14 +256,14 @@ const page = () => {
                 name="PhoneNumber"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
+                    <FormLabel className="block text-lg text-gray-600 font-thin mb-2">
                       Phone Number
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Phone Number"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -276,7 +276,7 @@ const page = () => {
                 name="password"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="w-full  flex items-center justify-between text-lg text-gray-600  mb-2">
+                    <FormLabel className="w-full  flex items-center justify-between text-lg text-gray-600 font-thin mb-2">
                       <p>Password</p>
                     </FormLabel>
                     <FormControl>
@@ -284,7 +284,7 @@ const page = () => {
                         type="password"
                         placeholder="Password"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -297,7 +297,7 @@ const page = () => {
               <div className="flex flex-col w-full items-center justify-center mt-8">
                 <Button
                   type="submit"
-                  className="bg-slate-900 hover:bg-slate-700 mt-3 text-white font-semibold py-7 px-16 rounded-full text-lg   focus:outline-none focus:shadow-outline"
+                  className="bg-slate-700 hover:bg-slate-600 mt-3 text-white font-semibold py-7 px-12 rounded-full text-lg   focus:outline-none focus:shadow-outline"
                 >
                   {/* {loading ? (
                       <ColorRing

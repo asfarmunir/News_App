@@ -55,13 +55,17 @@ const page = () => {
   }
   return (
     <div className=" flex flex-col w-full items-start justify-start p-5 px-4 md:px-8">
-      <Link
-        href={"/businessDashboard/followers"}
-        className="flex items-center justify-start w-full mt-4"
-      >
-        <IoArrowBack className="w-6 h-6" />
-        <h2 className="text-xl font-normal ml-4">Add Follower</h2>
-      </Link>
+      <div className=" w-full flex gap-4 items-center justify-start mt-4">
+        <Link
+          href={"/businessDashboard/news"}
+          className="flex flex-row  items-center justify-start flex-nowrap"
+        >
+          <IoArrowBack className="w-6 h-6" />
+          <h2 className="text-xl font-normal ml-4 text-nowrap ">Post News</h2>
+        </Link>
+
+        <div className=" w-full border border-slate-300/80"></div>
+      </div>
 
       <Form {...form}>
         <div
@@ -86,7 +90,7 @@ const page = () => {
                       <Input
                         placeholder="Name"
                         {...field}
-                        className="shadow appearance-none border mr-0 md:mr-6  rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border mr-0 md:mr-6  rounded-xl bg-brown-50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -107,7 +111,7 @@ const page = () => {
                         type="link"
                         placeholder="link"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -122,13 +126,13 @@ const page = () => {
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Date
+                      Schedule Post
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="date"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full md:w-[45%] py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50 w-full md:w-[45%] py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -149,7 +153,7 @@ const page = () => {
                         type="text"
                         placeholder="Location"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -171,12 +175,12 @@ const page = () => {
                       type="text"
                       placeholder="description"
                       {...field}
-                      className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="shadow appearance-none border rounded-xl bg-brown-50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     /> */}
                     <Textarea
                       placeholder="description"
                       {...field}
-                      className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full md:w-3/4  h-64 py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="shadow appearance-none border rounded-xl bg-brown-50 w-full md:w-3/4  h-64 py-4 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                   </FormControl>
                   <FormMessage />
@@ -187,7 +191,7 @@ const page = () => {
             <div className="flex flex-col w-full mt-2 items-center justify-center">
               <Button
                 type="submit"
-                className="bg-slate-900 w-full rounded-lg hover:bg-slate-700 mt-6 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
+                className="bg-slate-700 w-full rounded-lg hover:bg-slate-600 mt-6 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
               >
                 {/* {loading ? (
                       <ColorRing
@@ -206,7 +210,7 @@ const page = () => {
                         ]}
                       />
                     ) : ( */}
-                <span className=" capitalize">Add Post</span>
+                <span className=" capitalize">Post News</span>
                 {/* )} */}
               </Button>
             </div>

@@ -54,13 +54,19 @@ const page = () => {
   }
   return (
     <div className=" flex flex-col w-full items-start justify-start p-5 px-4 md:px-8">
-      <Link
-        href={"/businessDashboard/followers"}
-        className="flex items-center justify-start w-full mt-4"
-      >
-        <IoArrowBack className="w-6 h-6" />
-        <h2 className="text-xl font-normal ml-4">Add Follower</h2>
-      </Link>
+      <div className=" w-full flex gap-4 items-center justify-start mt-4">
+        <Link
+          href={"/businessDashboard/followers"}
+          className="flex flex-row  items-center justify-start flex-nowrap"
+        >
+          <IoArrowBack className="w-6 h-6" />
+          <h2 className="text-xl font-normal ml-4 text-nowrap ">
+            Add Follower
+          </h2>
+        </Link>
+
+        <div className=" w-full border border-slate-300/80"></div>
+      </div>
 
       <Form {...form}>
         <div
@@ -85,7 +91,7 @@ const page = () => {
                       <Input
                         placeholder="Name"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50 w-full  sm:w-[95%]  py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -106,7 +112,7 @@ const page = () => {
                         type="email"
                         placeholder="Email"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50  w-full py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -128,7 +134,7 @@ const page = () => {
                         type="number"
                         placeholder="  Phone Number"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50  w-full  md:w-[95%] py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -149,7 +155,7 @@ const page = () => {
                         type="text"
                         placeholder="Location"
                         {...field}
-                        className="shadow appearance-none border rounded-xl bg-orange-100/50 w-full py-8 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded-xl bg-brown-50  w-full py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -161,7 +167,7 @@ const page = () => {
             <div className="flex flex-col w-full mt-2 items-center justify-center">
               <Button
                 type="submit"
-                className="bg-slate-900 w-full rounded-lg hover:bg-slate-700 mt-3 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
+                className="bg-slate-700 w-full rounded-lg hover:bg-slate-600 mt-5 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
               >
                 {/* {loading ? (
                       <ColorRing

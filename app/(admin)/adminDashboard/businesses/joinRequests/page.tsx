@@ -3,6 +3,7 @@ import { PiNewspaperFill } from "react-icons/pi";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
+import { FaCheck } from "react-icons/fa6";
 
 import {
   Table,
@@ -34,39 +35,33 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { PiWarningOctagonLight } from "react-icons/pi";
+import { IoArrowBack } from "react-icons/io5";
 
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
-      <div className="flex items-center justify-start gap-2 md:gap-4  ">
-        <Link href={"/adminDashboard/businesses/add"}>
-          <Button className=" ml-2  md:ml-4 bg-primary text-xs md:text-lg text-white px-3 md:px-10 py-2 md:py-7 rounded-lg">
-            {" "}
-            Add Business{" "}
-            <IoMdAdd className="w-3 md:w-6 h-3 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
-          </Button>
+      <div className=" w-full flex gap-4 items-center justify-start mt-4 px-6">
+        <Link
+          href={"/adminDashboard/businesses"}
+          className="flex flex-row  items-center justify-start flex-nowrap"
+        >
+          <IoArrowBack className="w-6 h-6" />
+          <h2 className="text-xl font-normal ml-4 text-nowrap ">
+            Follow Requests
+          </h2>
         </Link>
-        <Link href={"/adminDashboard/businesses/joinRequests"}>
-          <Button className=" relative  bg-primary text-xs md:text-lg text-white px-3 md:px-10 py-2 md:py-7 rounded-lg">
-            {" "}
-            Join Request{" "}
-            <FaArrowRightLong className="w-4 h-4 ml-3 md:ml-5 text-white   rounded-lg " />
-            <p className=" absolute -top-3 -left-3 text-xs bg-red-600 text-white rounded-full p-2 pr-2.5">
-              +2
-            </p>
-          </Button>
-        </Link>
+
+        <div className=" w-full border border-slate-300/80"></div>
       </div>
+
       <div className=" bg-white p-5 px-2 md:px-8 rounded-md shadow-sm w-full">
         <div className=" w-full flex items-center  justify-between mb-4">
-          <h2 className=" text-slate-900 font-bold text-2xl ">Businesses</h2>
-          <Image
-            src={"/icons/filter.svg"}
-            width={35}
-            height={35}
-            alt="icon"
-            className=" hover:shadow-2xl hover:cursor-pointer"
-          />
+          <h2 className=" text-slate-900 font-bold text-2xl ">
+            Follow Requests
+          </h2>
+          <Button className="rounded-xl inline-flex items-center gap-2">
+            Accept All <FaCheck className="w-3 h-3 text-white" />
+          </Button>
         </div>
         <Table>
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
@@ -83,13 +78,7 @@ const page = () => {
               <TableHead className=" text-slate-950 font-bold">
                 Category
               </TableHead>
-              <TableHead className=" text-center text-slate-950 font-bold">
-                Joined On
-              </TableHead>
-              <TableHead className="  inline-flex  items-center justify-center w-full pl-4 gap-1 text-slate-950 font-bold">
-                Posts{" "}
-                <PiWarningOctagonLight className="w-5 text-indigo-600 font-extrabold h-5" />
-              </TableHead>
+
               <TableHead className=" text-center  text-slate-950 font-bold">
                 Actions
               </TableHead>
@@ -112,30 +101,14 @@ const page = () => {
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 shoes
               </TableCell>
-              <TableCell className="font-semibold text-center border-b pb-4 pt-4 border-slate-200">
-                27/03/2024
-              </TableCell>
-              <TableCell className="font-semibold underline border-b pb-4 pt-4 text-center text-indigo-500 border-slate-200">
-                300
-              </TableCell>
-              <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <FaAngleDown className="w-7 h-7 p-1.5 border border-slate-300 hover:border-slate-500 rounded-full text-slate-900" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
-                      Restrict Business
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
 
-                    <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                      Block Business
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+              <TableCell className="text-center border-b flex items-center justify-center w-full gap-3  border-slate-200">
+                <Button className="rounded-md inline-flex items-center hover:text-green-600 hover:bg-green-500/20 bg-green-500/30 text-green-700 px-10 py-6 gap-2">
+                  Accept
+                </Button>
+                <Button className="rounded-md inline-flex items-center hover:bg-red-500/20 bg-red-500/30 text-red-600 px-10 py-6 gap-2">
+                  Reject
+                </Button>
               </TableCell>
             </TableRow>
           </TableBody>

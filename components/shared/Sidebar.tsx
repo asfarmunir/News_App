@@ -15,7 +15,10 @@ const Sidebar = ({ links }) => {
         {/* SideBar */}
         <div
           id="menu"
-          className="hidden relative lg:block bg-primary rounded-tr-3xl rounded-br-3xl  h-full   text-slate-300  w-64  overflow-y-auto pb-8"
+          style={{
+            borderRadius: "0 1.9rem 1.9rem 0",
+          }}
+          className="hidden relative lg:block bg-primary   h-full   text-slate-300  w-64  overflow-y-auto pb-8"
         >
           <div id="logo" className="my-16 px-8">
             <h1 className="text-lg md:text-2xl font-bold pb-2 text-white mb-2">
@@ -25,16 +28,16 @@ const Sidebar = ({ links }) => {
           <Navlinks links={links} />
           <Link
             className={
-              "flex items-center gap-4 px-12 mt-2 w-full p-4 text-slate-200  "
+              "flex items-center gap-2 px-12 mt-3 w-full p-4 text-slate-200  "
             }
             href={"/help"}
           >
-            <MdHelp className="w-6 h-6 mr-3" />
+            <MdHelp className="w-6 h-6 mr-1.5" />
             Help
           </Link>
           <button
             className={
-              "flex absolute bottom-3 font-semibold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
+              "flex absolute bottom-10 font-bold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
             }
           >
             <FaArrowLeftLong className="w-3 h-3 mr-1" />

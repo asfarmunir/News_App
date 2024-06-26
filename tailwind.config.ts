@@ -28,7 +28,13 @@ const config = {
         coral: {
           500: "#15BF59",
         },
-        brown: "#C6AC8F",
+        brown: {
+          DEFAULT:"#C6AC8F",
+          50:"#EFE7DD",
+          100:"#65625D",
+          200: '#C6AC8F',
+          300:"#E9DED3"
+        },
 
         grey: {
           600: "#545454", // Subdued - color name in figma

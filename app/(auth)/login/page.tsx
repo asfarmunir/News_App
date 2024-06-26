@@ -18,6 +18,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
@@ -25,8 +26,8 @@ const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email.",
   }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
+  password: z.string().min(1, {
+    message: "Please enter a valid password",
   }),
 });
 
@@ -42,8 +43,10 @@ const page = () => {
     },
   });
 
+  const router = useRouter();
   async function onSubmit(values) {
     console.log(values);
+    router.push("/businessDashboard");
   }
 
   return (
@@ -75,7 +78,7 @@ const page = () => {
           "
         />
       </div>
-      <div className=" w-full md:w-[60%]  h-full flex items-start justify-start p-8 px-10 md:px-20  flex-col gap-4  ">
+      <div className=" w-full md:w-[60%]  h-full flex items-start justify-start p-8 px-10 md:px-28  flex-col gap-6  ">
         <h2 className=" text-2xl font-bold">News App</h2>
         <h4 className="  text-slate-600 ">Welcome back!!!</h4>
         <h1
@@ -85,7 +88,7 @@ const page = () => {
           text-slate-800
           "
         >
-          Sign In
+          Sign in
         </h1>
 
         <Form {...form}>
@@ -103,14 +106,14 @@ const page = () => {
                 name="email"
                 render={({ field }) => (
                   <FormItem className="mb-4">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
+                    <FormLabel className="block text-lg font-thin text-gray-600  mb-2">
                       Email
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Email"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border  rounded-md  bg-brown-50   w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -122,17 +125,19 @@ const page = () => {
                 control={form.control}
                 name="password"
                 render={({ field }) => (
-                  <FormItem className="mb-4">
+                  <FormItem className="mb-12 mt-8">
                     <FormLabel className="w-full  flex items-center justify-between text-lg text-gray-600  mb-2">
-                      <p>Password</p>
-                      <p>Forget Password?</p>
+                      <p className=" text-gray-600 font-thin">Password</p>
+                      <p className="text-slate-400 text-sm font-thin">
+                        Forget Password ?
+                      </p>
                     </FormLabel>
                     <FormControl>
                       <Input
                         type="password"
                         placeholder="Password"
                         {...field}
-                        className="shadow appearance-none border rounded-md bg-orange-100/80 w-full py-6 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border  rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                       />
                     </FormControl>
                     <FormMessage />
@@ -142,10 +147,10 @@ const page = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex flex-col w-full items-center justify-center">
+              <div className="flex flex-col w-full items-center  justify-center">
                 <Button
                   type="submit"
-                  className="bg-slate-900 hover:bg-slate-700 mt-3 text-white font-semibold py-7 px-10 rounded-full text-lg   focus:outline-none focus:shadow-outline"
+                  className="bg-slate-700 hover:bg-slate-600 mt-3 text-white font-semibold py-7 px-8 rounded-full text-lg   focus:outline-none focus:shadow-outline"
                 >
                   {/* {loading ? (
                       <ColorRing
@@ -165,7 +170,7 @@ const page = () => {
                       />
                     ) : ( */}
                   <span className=" capitalize">SIGN IN</span>
-                  <FaArrowRight className=" text-xl ml-4" />
+                  <FaArrowRight className=" text-xl ml-8" />
                   {/* )} */}
                 </Button>
                 <p className="text-xs font-thin mt-2">

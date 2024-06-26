@@ -1,51 +1,85 @@
 import React from "react";
 import { PiNewspaperFill } from "react-icons/pi";
-import { IoPersonAdd } from "react-icons/io5";
-import { BsFillSuitcaseLgFill } from "react-icons/bs";
-
 import Image from "next/image";
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 bg-slate-50 w-full">
-      <div className=" flex items-center justify-normal gap-2 md:gap-6  p-4 w-full">
-        <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
-          <p className=" font-thin text-xs md:text-base text-slate-600">
-            Total Businesses
-          </p>
-          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">345</h1>
-          <BsFillSuitcaseLgFill className="w-7 md:w-10 bg-brown/60 p-1 md:p-2.5 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+      <div className=" flex items-center justify-normal flex-wrap sm:flex-nowrap gap-2 md:gap-6  p-4 w-full">
+        <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
+          <div>
+            <p className=" font-semibold text-xs md:text-base text-slate-400">
+              Total Businesses
+            </p>
+            <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+              1200
+            </h1>
+          </div>
+          <Image
+            src={"/icons/briefcase.svg"}
+            width={20}
+            height={20}
+            className="w-7 md:w-11 bg-brown-300 p-1 md:p-2.5 rounded-xl h-7 md:h-10 mt-2 text-slate-700"
+            alt="img"
+          />
         </div>
-        <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
-          <p className=" font-thin text-xs md:text-base text-slate-600">
-            Total News
-          </p>
-          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-            1200
-          </h1>
-          <PiNewspaperFill className="w-7 md:w-10 bg-brown/60 p-1 md:p-2 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+        <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
+          <div>
+            <p className=" font-semibold text-xs md:text-base text-slate-400">
+              Total News
+            </p>
+            <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+              830
+            </h1>
+          </div>
+          <Image
+            src={"/icons/newspaperBlack.svg"}
+            width={20}
+            height={20}
+            className="w-7 md:w-11 bg-brown-300 p-1 md:p-2.5 rounded-xl h-7 md:h-10 mt-2 text-slate-700"
+            alt="img"
+          />
         </div>
-        <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
-          <p className=" font-thin text-xs md:text-base text-slate-600">
-            Pending Requests
-          </p>
-          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">342</h1>
-          <IoPersonAdd className="w-7 md:w-10 bg-brown/60 p-1 md:p-2.5 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+        <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
+          <div>
+            <p className=" font-semibold text-xs md:text-base text-slate-400">
+              Pending Requests
+            </p>
+            <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+              830
+            </h1>
+          </div>
+          <Image
+            src={"/icons/addUser.svg"}
+            width={20}
+            height={20}
+            className="w-7 md:w-11 bg-brown-300 p-1 md:p-2.5 rounded-xl h-7 md:h-10 mt-2 text-slate-700"
+            alt="img"
+          />
         </div>
-        <div className=" bg-white flex flex-col items-start justify-start pl-6 py-4 w-full ">
-          <p className=" font-thin text-xs md:text-base text-slate-600">
-            Accepted Requests
-          </p>
-          <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-            1220
-          </h1>
-          <IoPersonAdd className="w-7 md:w-10 bg-brown/60 p-1 md:p-2.5 rounded-lg h-7 md:h-10 mt-2 text-slate-700" />
+        <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
+          <div>
+            <p className=" font-semibold text-xs md:text-base text-slate-400">
+              Accepted Requests
+            </p>
+            <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+              600
+            </h1>
+          </div>
+          <Image
+            src={"/icons/addUser.svg"}
+            width={20}
+            height={20}
+            className="w-7 md:w-11 bg-brown-300 p-1 md:p-2.5 rounded-xl h-7 md:h-10 mt-2 text-slate-700"
+            alt="img"
+          />
         </div>
       </div>
+
       <div className=" bg-white p-5 rounded-lg w-full">
         <h3 className=" text-slate-800 font-bold text-2xl pb-3">Statistics</h3>
 
         <div className="flex items-center justify-start gap-3  md:gap-6 flex-wrap">
-          <div className=" bg-brown/30 w-full sm:w-fit flex items-center justify-center py-3 md:py-5 px-5 md:px-8 rounded-lg">
+          <div className=" bg-brown/30 w-full sm:w-fit flex items-center justify-start sm:justify-center py-3 md:py-5 px-5  rounded-lg">
             <Image
               src={"/images/growth.png"}
               width={40}
@@ -55,12 +89,12 @@ const page = () => {
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Max Registrations(month)
+                Max Registrations (month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">March</h3>
             </div>
           </div>
-          <div className=" bg-brown/30 flex w-full sm:w-fit items-center justify-center py-3 md:py-5 px-5 md:px-8 rounded-lg">
+          <div className=" bg-brown/30 flex w-full sm:w-fit items-center justify-start sm:justify-center py-3 md:py-5 px-5  rounded-lg">
             <Image
               src={"/images/wallet.png"}
               width={40}
@@ -75,17 +109,17 @@ const page = () => {
               <h3 className=" text-sm md:text-base font-semibold">2000 SAR</h3>
             </div>
           </div>
-          <div className=" bg-brown/30 flex w-full sm:w-fit items-center justify-center py-1.5 md:py-2.5 px-5 md:px-8 rounded-lg">
+          <div className=" bg-brown/30 flex w-full sm:w-fit items-center justify-start sm:justify-center py-1 md:py-2 px-2 md:pr-6  rounded-lg">
             <Image
               src={"/images/loss.png"}
               width={50}
               height={50}
-              className=" mr-2 w-16 h-16"
+              className=" mr-0 md:mr-2 w-[70px] h-[68px]"
               alt="growth"
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Least Registrations(month)
+                Least Registrations (month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">April</h3>
             </div>
