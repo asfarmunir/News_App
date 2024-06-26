@@ -33,7 +33,8 @@ const config = {
           50:"#EFE7DD",
           100:"#65625D",
           200: '#C6AC8F',
-          300:"#E9DED3"
+          300:"#E9DED3",
+          400: "#F3EFE8"
         },
 
         grey: {

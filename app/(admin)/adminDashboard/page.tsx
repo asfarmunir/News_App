@@ -1,6 +1,7 @@
 import React from "react";
 import { PiNewspaperFill } from "react-icons/pi";
 import Image from "next/image";
+import Graph from "@/components/shared/Graph";
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 bg-slate-50 w-full">
@@ -15,7 +16,7 @@ const page = () => {
             </h1>
           </div>
           <Image
-            src={"/icons/briefcase.svg"}
+            src={"/icons/briefcaseBlack.svg"}
             width={20}
             height={20}
             className="w-7 md:w-11 bg-brown-300 p-1 md:p-2.5 rounded-xl h-7 md:h-10 mt-2 text-slate-700"
@@ -75,6 +76,7 @@ const page = () => {
         </div>
       </div>
 
+      <Graph />
       <div className=" bg-white p-5 rounded-lg w-full">
         <h3 className=" text-slate-800 font-bold text-2xl pb-3">Statistics</h3>
 

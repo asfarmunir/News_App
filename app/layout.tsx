@@ -11,8 +11,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Flexibble",
-  description: "Share your creative projects and get hired",
+  title: "News App",
+  description: "Share your news with the world",
 };
 
 export default function RootLayout({
@@ -21,22 +21,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <html lang="en" suppressHydrationWarning suppressContentEditableWarning>
-        <body className={poppins.variable}>
-          <NextTopLoader
-            color="blue"
-            initialPosition={0.08}
-            crawlSpeed={200}
-            height={2}
-            crawl={true}
-            // showSpinner={true}
-            easing="ease"
-            speed={200}
-            shadow="0 0 5px #2299DD,0 0 5px #2299DD"
-          />
-          {children}
-          <Toaster position="top-center" />
-        </body>
-      </html>
+    <html lang="en" suppressHydrationWarning suppressContentEditableWarning>
+      <body className={poppins.variable}>
+        <NextTopLoader
+          color="blue"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={2}
+          crawl={true}
+          // showSpinner={true}
+          easing="ease"
+          speed={200}
+          shadow="0 0 5px #2299DD,0 0 5px #2299DD"
+        />
+        {children}
+        <Toaster position="top-center" />
+      </body>
+    </html>
   );
 }

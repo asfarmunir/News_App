@@ -43,29 +43,64 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import Link from "next/link";
+import { CiSearch } from "react-icons/ci";
+
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { IoClose } from "react-icons/io5";
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
-      {/* <Link href={"/businessDashboard/news/add"}>
-        <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
-          {" "}
-          Post News{" "}
-          <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
-        </Button>
-      </Link> */}
+      <div className=" w-full flex gap-4 items-center justify-start mt-4 px-6">
+        <Link
+          href={"/adminDashboard/businesses"}
+          className="flex flex-row  items-center justify-start flex-nowrap"
+        >
+          <h2 className="text-lg font-normal ml-4 text-nowrap ">
+            Showing Posts for Nike
+          </h2>
+        </Link>
+
+        <div className=" w-full border border-slate-300/80"></div>
+      </div>
       <div className=" bg-white p-5 px-8 rounded-md shadow-sm w-full">
-        <h2 className=" text-slate-900 font-bold text-2xl mb-4">News Posts</h2>
+        <div className=" w-full flex items-center  justify-between mb-4">
+          <h2 className=" text-slate-900 font-bold text-2xl ">News Post</h2>
+          <div className="inline-flex items-center gap-2">
+            <p className=" font-semibold text-lg">Business:</p>
+            <div className=" bg-brown-400 inline-flex items-center py-1 px-4 rounded-lg">
+              <CiSearch className="w-8 h-8 mr-2 text-slate-700 " />
+              <Input
+                type="text"
+                className=" 
+                bg-transparent  
+                text-slate-900
+                focus:outline-none
+                focus:ring-0
+                focus:border-transparent
+                placeholder-slate-900
+                
+                
+                "
+                placeholder="Search"
+              />
+            </div>
+          </div>
+        </div>{" "}
         <Table>
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className=" bg-brown/50">
             <TableRow>
-              <TableHead className=" text-slate-950 font-bold">PID</TableHead>
+              <TableHead className=" text-slate-950 font-bold text-center">
+                PID
+              </TableHead>
               <TableHead className=" text-slate-950 font-bold">Title</TableHead>
               <TableHead className=" text-slate-950 font-bold">
-                Description
+                Business Name
               </TableHead>
-              <TableHead className=" text-slate-950 font-bold">Links</TableHead>
+              <TableHead className=" text-slate-950 font-bold">
+                Owner Name
+              </TableHead>
               <TableHead className=" text-slate-950 font-bold">
                 Posted On
               </TableHead>
@@ -76,18 +111,18 @@ const page = () => {
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+              <TableCell className="font-thin border-b pb-4 pt-4 text-slate-500 text-center border-slate-200">
                 #123
               </TableCell>
               <TableCell className="font-thin border-b pb-4 truncate max-w-[100px] pt-4 border-slate-200">
                 <AlertDialog>
-                  <AlertDialogTrigger className=" truncate max-w-28 ">
+                  <AlertDialogTrigger className=" truncate font-bold max-w-36 ">
                     We have got a new project to work on.
                   </AlertDialogTrigger>
                   <AlertDialogContent className=" bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
                     <div className=" w-full flex items-end justify-end">
                       <AlertDialogCancel className=" bg-red-500 text-white text-lg font-bold rounded-md">
-                        X
+                        <IoClose className=" w-6 h-6 font-semibold " />
                       </AlertDialogCancel>
                     </div>
                     <AlertDialogHeader className=" px-12">
@@ -120,16 +155,13 @@ const page = () => {
                 </AlertDialog>
               </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 truncate max-w-[200px] border-slate-200">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Id
-                sunt eum natus itaque assumenda distinctio? Non, quos. Nobis
-                aperiam cumque repellendus aliquid dolores, atque, deserunt
-                eveniet deleniti, porro corporis enim!
+                Nike
               </TableCell>
-              <TableCell className="font-thin text-indigo-400 border-b pb-4 pt-4 border-slate-200">
-                www.google.com
+              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                James Fod
               </TableCell>
-              <TableCell className="font-semibold border-b  pb-4 pt-4 border-slate-200">
-                27 May 2024
+              <TableCell className="font-bold border-b  pb-4 pt-4 border-slate-200">
+                27/03/2024
               </TableCell>
               <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
                 <DropdownMenu>

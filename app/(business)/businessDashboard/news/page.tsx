@@ -44,6 +44,7 @@ import {
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { IoClose } from "react-icons/io5";
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
@@ -89,7 +90,7 @@ const page = () => {
                   <AlertDialogContent className=" bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
                     <div className=" w-full flex items-end justify-end">
                       <AlertDialogCancel className=" bg-red-500 text-white text-lg font-bold rounded-md">
-                        X
+                        <IoClose className=" w-6 h-6 font-semibold " />
                       </AlertDialogCancel>
                     </div>
                     <AlertDialogHeader className=" px-12">

@@ -1,5 +1,6 @@
 import React from "react";
 import { PiNewspaperFill } from "react-icons/pi";
+import Graph from "@/components/shared/Graph";
 import Image from "next/image";
 const page = () => {
   return (
@@ -75,6 +76,8 @@ const page = () => {
         </div>
       </div>
 
+      <Graph />
+
       <div className=" bg-white p-5 rounded-lg w-full">
         <h3 className=" text-slate-800 font-bold text-2xl pb-3">Statistics</h3>
 
@@ -124,21 +127,6 @@ const page = () => {
               <h3 className=" text-sm md:text-base font-semibold">April</h3>
             </div>
           </div>
-
-          {/*  <div className=" bg-brown/30 flex items-center justify-center py-3 px-6 rounded-lg">
-            <Image
-              src={"/images/loss.png"}
-              width={50}
-              height={50}
-              alt="growth"
-            />
-            <div>
-              <p className=" text-slate-700 text-sm font-thin">
-                Least News(month)
-              </p>
-              <h3 className=" font-semibold">April</h3>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>

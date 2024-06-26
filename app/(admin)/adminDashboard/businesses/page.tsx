@@ -38,7 +38,7 @@ import { PiWarningOctagonLight } from "react-icons/pi";
 const page = () => {
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
-      <div className="flex items-center justify-start gap-2 md:gap-4  ">
+      <div className="flex items-center justify-start gap-3 md:gap-6  ">
         <Link href={"/adminDashboard/businesses/add"}>
           <Button className=" ml-2  md:ml-4 bg-primary text-xs md:text-lg text-white px-3 md:px-10 py-2 md:py-7 rounded-lg">
             {" "}
