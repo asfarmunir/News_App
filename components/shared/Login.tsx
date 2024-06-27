@@ -46,7 +46,7 @@ const page = () => {
   const router = useRouter();
   async function onSubmit(values) {
     console.log(values);
-    router.push("/adminDashboard");
+    router.push("/businessDashboard");
   }
 
   return (
@@ -88,7 +88,7 @@ const page = () => {
           text-slate-800
           "
         >
-          Sign in as Admin
+          Sign in
         </h1>
 
         <Form {...form}>
@@ -174,22 +174,25 @@ const page = () => {
                   {/* )} */}
                 </Button>
                 <p className="text-xs font-thin mt-2">
-                  Login as Business Owner?
-                  <Link className="font-semibold text-slate-800" href={"/"}>
-                    {" "}
-                    Click here
-                  </Link>
-                </p>
-                {/* <p className="text-xs font-thin mt-2">
-                  Login as Admin?
+                  Dont have an account?
                   <Link
                     className="font-semibold text-slate-800"
                     href={"/signup"}
                   >
                     {" "}
+                    Sign up
+                  </Link>
+                </p>
+                <p className="text-xs font-thin mt-2">
+                  Login as Admin?
+                  <Link
+                    className="font-semibold text-slate-800"
+                    href={"/login"}
+                  >
+                    {" "}
                     Click here
                   </Link>
-                </p> */}
+                </p>
               </div>
             </form>
           </div>

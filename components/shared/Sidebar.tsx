@@ -35,14 +35,15 @@ const Sidebar = ({ links }) => {
             <MdHelp className="w-6 h-6 mr-1.5" />
             Help
           </Link>
-          <button
+          <Link
+            href={"/"}
             className={
               "flex absolute bottom-10 font-bold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
             }
           >
             <FaArrowLeftLong className="w-3 h-3 mr-1" />
             Log Out
-          </button>
+          </Link>
         </div>
         {/* Movbile Sidebar */}
         <div className="flex lg:hidden ">
@@ -75,14 +76,15 @@ const Sidebar = ({ links }) => {
               <MdHelp className="w-6 h-6 mr-3" />
               Help
             </Link>
-            <button
+            <Link
+              href={"/"}
               className={
                 "flex absolute bottom-3 font-semibold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
               }
             >
               <FaArrowLeftLong className="w-3 h-3 mr-1" />
               Log Out
-            </button>
+            </Link>
           </div>
         </div>
         {/* Mobile Sidebar end */}
