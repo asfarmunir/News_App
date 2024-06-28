@@ -9,7 +9,7 @@ const page = () => {
         <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
           <div>
             <p className=" font-semibold text-xs md:text-base text-slate-400">
-              Total News
+              Total Alerts
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
               1200
@@ -92,7 +92,7 @@ const page = () => {
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Most News(month)
+                Most Alerts(month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">March</h3>
             </div>
@@ -122,7 +122,7 @@ const page = () => {
             />
             <div>
               <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Least News(month)
+                Least Alerts(month)
               </p>
               <h3 className=" text-sm md:text-base font-semibold">April</h3>
             </div>

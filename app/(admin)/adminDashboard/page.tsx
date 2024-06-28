@@ -26,7 +26,7 @@ const page = () => {
         <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
           <div>
             <p className=" font-semibold text-xs md:text-base text-slate-400">
-              Total News
+              Total Alerts
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
               830

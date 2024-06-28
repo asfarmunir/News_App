@@ -27,7 +27,7 @@ const page = () => {
         />
         <h2 className="text-xl font-semibold text-black">Business Added</h2>
         <p className="text-slate-600 font-thin text-sm max-w-xs text-center">
-          Now this business will be able to post news.{" "}
+          Now this business will be able to see the alerts you post.{" "}
         </p>
         <Link
           href={"/businessDashboard/businesses/add"}

@@ -49,7 +49,7 @@ export default async function RootLayout({ children }) {
       href: "/businessDashboard/followers",
     },
     {
-      name: "News",
+      name: "Alerts",
       icon: [
         <Image
           key={1}

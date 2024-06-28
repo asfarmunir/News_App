@@ -11,7 +11,7 @@ const page = () => {
           className="flex flex-row  items-center justify-start flex-nowrap"
         >
           <IoArrowBack className="w-6 h-6" />
-          <h2 className="text-xl font-normal ml-4 text-nowrap ">Post News</h2>
+          <h2 className="text-xl font-normal ml-4 text-nowrap ">Post Alert</h2>
         </Link>
 
         <div className=" w-full border border-slate-300/80"></div>
@@ -23,9 +23,9 @@ const page = () => {
           width={120}
           height={120}
         />
-        <h2 className="text-xl font-semibold text-black">News Posted</h2>
+        <h2 className="text-xl font-semibold text-black">Alert Posted</h2>
         <p className="text-slate-600 font-thin text-sm max-w-xs text-center">
-          Now users will be able to see your news on their feed.
+          Now users will be able to see your alert on their feed.
         </p>
         <Link
           href={"/businessDashboard/followers/add"}

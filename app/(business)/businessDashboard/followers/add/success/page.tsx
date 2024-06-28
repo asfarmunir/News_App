@@ -28,7 +28,7 @@ const page = () => {
         />
         <h2 className="text-xl font-semibold text-black">Follower Added</h2>
         <p className="text-slate-600 font-thin text-sm max-w-xs text-center">
-          Now this user will be able to see the <br /> news you post.
+          Now this user will be able to see the <br /> alerts you post.
         </p>
         <Link
           href={"/businessDashboard/followers/add"}

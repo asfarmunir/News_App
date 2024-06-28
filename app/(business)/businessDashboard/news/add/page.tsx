@@ -61,7 +61,7 @@ const page = () => {
           className="flex flex-row  items-center justify-start flex-nowrap"
         >
           <IoArrowBack className="w-6 h-6" />
-          <h2 className="text-xl font-normal ml-4 text-nowrap ">Post News</h2>
+          <h2 className="text-xl font-normal ml-4 text-nowrap ">Alerts</h2>
         </Link>
 
         <div className=" w-full border border-slate-300/80"></div>
@@ -210,7 +210,7 @@ const page = () => {
                         ]}
                       />
                     ) : ( */}
-                <span className=" capitalize">Post News</span>
+                <span className=" capitalize">Post Alert</span>
                 {/* )} */}
               </Button>
             </div>

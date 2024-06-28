@@ -50,6 +50,7 @@ const page = () => {
             <TableRow>
               <TableHead className=" text-slate-950 font-bold">PID</TableHead>
               <TableHead className=" text-slate-950 font-bold">Name</TableHead>
+              <TableHead className=" text-slate-950 font-bold">Email</TableHead>
               <TableHead className=" text-slate-950 font-bold">
                 Phone Number
               </TableHead>
@@ -72,6 +73,9 @@ const page = () => {
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 John Doe
               </TableCell>
+              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200 ">
+                asfark135@gmail.com
+              </TableCell>
               <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                 +234 123 456 7890
               </TableCell>
@@ -90,7 +94,7 @@ const page = () => {
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-12 py-3">
-                      Hide News
+                      Hide Alert
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
 

@@ -51,12 +51,12 @@ const page = () => {
       <Link href={"/businessDashboard/news/add"}>
         <Button className=" ml-2 md:ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
           {" "}
-          Post News{" "}
+          Post Alerts{" "}
           <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-6 md:ml-8 text-black bg-brown  rounded-lg " />
         </Button>
       </Link>
       <div className=" bg-white p-5 px-3 md:px-8 rounded-md shadow-sm w-full">
-        <h2 className=" text-slate-900 font-bold text-2xl mb-4">News Posts</h2>
+        <h2 className=" text-slate-900 font-bold text-2xl mb-4">Alerts</h2>
         <Table>
           {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
           <TableHeader className=" bg-brown/50">

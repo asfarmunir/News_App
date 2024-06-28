@@ -65,7 +65,7 @@ const page = () => {
       </div>
       <div className=" bg-white p-5 px-8 rounded-md shadow-sm w-full">
         <div className=" w-full flex items-center  justify-between mb-4">
-          <h2 className=" text-slate-900 font-bold text-2xl ">News Post</h2>
+          <h2 className=" text-slate-900 font-bold text-2xl ">Alerts</h2>
           <div className="inline-flex items-center gap-2">
             <p className=" font-semibold text-lg">Business:</p>
             <div className=" bg-brown-400 inline-flex items-center py-1 px-4 rounded-lg">
