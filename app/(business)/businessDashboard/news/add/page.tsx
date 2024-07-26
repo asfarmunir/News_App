@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { FaArrowRight } from "react-icons/fa6";
@@ -20,7 +20,10 @@ import { Input } from "@/components/ui/input";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { addAlert } from "@/lib/cruds/newsCrud";
 import { Textarea } from "@/components/ui/textarea";
+import { ColorRing } from "react-loader-spinner";
+import { useAuth } from "@/utils/AuthProvider";
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -37,7 +40,7 @@ const formSchema = z.object({
   }),
 });
 
-const page = () => {
+const Page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,9 +51,34 @@ const page = () => {
     },
   });
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user } = useAuth();
+  console.log("user", user);
+
+  interface IFormInput {
+    name: string;
+    link: string;
+    date: string;
+    description: string;
+  }
+
   const router = useRouter();
-  async function onSubmit(values) {
-    console.log(values);
+  async function onSubmit(values: IFormInput) {
+    setIsLoading(true);
+    const newsData = {
+      ...values,
+      creatorId: user.uid,
+      creatorEmail: user.email,
+    };
+    try {
+      await addAlert(newsData);
+      setIsLoading(false);
+      toast.success("Alert added successfully");
+    } catch (e) {
+      console.log(e);
+      setIsLoading(false);
+      toast.error("Error adding alert");
+    }
     router.push("/businessDashboard/news/add/success");
   }
   return (
@@ -193,25 +221,25 @@ const page = () => {
                 type="submit"
                 className="bg-slate-700 w-full rounded-lg hover:bg-slate-600 mt-6 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
               >
-                {/* {loading ? (
-                      <ColorRing
-                        visible={true}
-                        height="35"
-                        width="35"
-                        ariaLabel="color-ring-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="color-ring-wrapper"
-                        colors={[
-                          "#ffffff",
-                          "#ffffff",
-                          "#ffffff",
-                          "#ffffff",
-                          "#ffffff",
-                        ]}
-                      />
-                    ) : ( */}
-                <span className=" capitalize">Post Alert</span>
-                {/* )} */}
+                {isLoading ? (
+                  <ColorRing
+                    visible={true}
+                    height="35"
+                    width="35"
+                    ariaLabel="color-ring-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="color-ring-wrapper"
+                    colors={[
+                      "#ffffff",
+                      "#ffffff",
+                      "#ffffff",
+                      "#ffffff",
+                      "#ffffff",
+                    ]}
+                  />
+                ) : (
+                  <span className=" capitalize">Post Alert</span>
+                )}
               </Button>
             </div>
           </form>
@@ -221,4 +249,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

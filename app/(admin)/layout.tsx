@@ -5,7 +5,11 @@ import { RiDashboardFill } from "react-icons/ri";
 import { BsFillSuitcaseLgFill } from "react-icons/bs";
 import { PiNewspaperFill } from "react-icons/pi";
 
-export default async function RootLayout({ children }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const adminLinks = [
     {
       name: "Dashboard",

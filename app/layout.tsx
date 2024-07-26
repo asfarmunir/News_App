@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from "nextjs-toploader";
+import { AuthProvider } from "@/utils/AuthProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -24,7 +25,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning suppressContentEditableWarning>
       <body className={poppins.variable}>
         <NextTopLoader
-          color="blue"
+          color="#F6F8FD"
           initialPosition={0.08}
           crawlSpeed={200}
           height={2}
@@ -34,7 +35,7 @@ export default function RootLayout({
           speed={200}
           shadow="0 0 5px #2299DD,0 0 5px #2299DD"
         />
-        {children}
+        <AuthProvider>{children}</AuthProvider>
         <Toaster position="top-center" />
       </body>
     </html>

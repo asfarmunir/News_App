@@ -5,10 +5,23 @@ import { useState } from "react";
 import Navlinks from "./Navlinks";
 import { MdHelp } from "react-icons/md";
 import { FaArrowLeftLong } from "react-icons/fa6";
+import { signOut } from "firebase/auth";
+import { auth } from "@/lib/firebaseConfig";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const Sidebar = ({ links }) => {
-  console.log("links", links);
-
+  const router = useRouter();
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log("User signed out");
+      toast.success("User signed out");
+      router.push("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
   return (
     <div>
       <div className="bg-slate-200 flex h-screen antialiased text-slate-300 selection:bg-blue-600 selection:text-white">
@@ -35,15 +48,15 @@ const Sidebar = ({ links }) => {
             <MdHelp className="w-6 h-6 mr-1.5" />
             Help
           </Link>
-          <Link
-            href={"/"}
+          <button
+            onClick={handleSignOut}
             className={
               "flex absolute bottom-10 font-bold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
             }
           >
             <FaArrowLeftLong className="w-3 h-3 mr-1" />
             Log Out
-          </Link>
+          </button>
         </div>
         {/* Movbile Sidebar */}
         <div className="flex lg:hidden ">

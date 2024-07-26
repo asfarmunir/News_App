@@ -4,10 +4,10 @@ import Image from "next/image";
 import { useState } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { FaArrowRight } from "react-icons/fa6";
+import { FaArrowLeftLong, FaArrowRight } from "react-icons/fa6";
 import toast from "react-hot-toast";
 import {
   Form,
@@ -21,10 +21,9 @@ import {
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { isBusinessApproved } from "@/lib/cruds/businessCrud";
-import { ColorRing } from "react-loader-spinner";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
+import { ColorRing } from "react-loader-spinner";
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email.",
@@ -34,72 +33,49 @@ const formSchema = z.object({
   }),
 });
 
-const Login = () => {
+const AdminLogin = () => {
   // ignote Eslint error
-  const [validation, setValidation] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [validation, setValidation] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "test@gmail.com",
-      password: "nike1234",
+      email: "admin@gmail.com",
+      password: "admin1234",
     },
   });
+
+  //remove this
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      console.log("User signed out");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
 
   const router = useRouter();
   async function onSubmit(values: { email: string; password: string }) {
     const { email, password } = values;
     setLoading(true);
-    const isApproved = await isBusinessApproved(email);
-    console.log("isApproved", isApproved);
-
-    if (typeof isApproved === "boolean" && isApproved) {
-      console.log("success");
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        setLoading(false);
-        toast.success("Login Successful");
-        router.push("/businessDashboard");
-      } catch (error) {
-        console.error("Error logging in:", error);
-        setValidation("Invalid email or password");
-        setLoading(false);
-      }
-    } else {
+    setValidation("");
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
       setLoading(false);
-      if (typeof isApproved === "object" && isApproved.message) {
-        setValidation("Invalid email or password");
-      } else {
-        toast.error("Your request is not approved yet");
-      }
+      toast.success("Welcome Admin");
+      router.push("/adminDashboard");
+    } catch (error) {
+      console.error("Error logging in:", error);
+      setValidation("Invalid email or password");
+      setLoading(false);
     }
+    // try {
+    //   await signInWithEmailAndPassword(auth, email, password);
+    // } catch (error) {
+    //   console.error("Error logging in:", error);
+    // }
   }
-
-  // async function onSubmit(values: { email: string; password: string }) {
-  //   const { email, password } = values;
-  //   setLoading(true);
-  //   const isApproved = await isBusinessApproved(email);
-  //   console.log("isApproved", isApproved);
-  //   if (isApproved) {
-  //     console.log("success");
-  //     // try {
-  //     //   await signInWithEmailAndPassword(auth, email, password);
-  //     //   toast.success("Login Successfull");
-  //     //   router.push("/businessDashboard");
-  //     // } catch (error) {
-  //     //   console.error("Error logging in:", error);
-  //     //   setValidation("Invalid email or password");
-  //     // }
-  //   } else {
-  //     setLoading(false);
-  //     isApproved.message
-  //       ? toast.error(isApproved.message)
-  //       : toast.error("Your request is not approved yet");
-  //     return;
-  //   }
-
-  //   // router.push("/businessDashboard");
-  // }
 
   return (
     <div className="flex items-center justify-center min-h-svh w-full">
@@ -132,6 +108,15 @@ const Login = () => {
       </div>
       <div className=" w-full md:w-[60%]  h-full flex items-start justify-start p-8 px-10 md:px-28  flex-col gap-6  ">
         <h2 className=" text-2xl font-bold">News App</h2>
+        <button
+          onClick={handleSignOut}
+          className={
+            "flex font-bold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
+          }
+        >
+          <FaArrowLeftLong className="w-3 h-3 mr-1" />
+          Log Out
+        </button>
         <h4 className="  text-slate-600 ">Welcome back!!!</h4>
         <h1
           className="
@@ -140,7 +125,7 @@ const Login = () => {
           text-slate-800
           "
         >
-          Sign in
+          Sign in as Admin
         </h1>
 
         <Form {...form}>
@@ -227,22 +212,10 @@ const Login = () => {
                     </>
                   )}
                 </Button>
+
                 <p className="text-xs font-thin mt-2">
-                  Dont have an account?
-                  <Link
-                    className="font-semibold text-slate-800"
-                    href={"/signup"}
-                  >
-                    {" "}
-                    Sign up
-                  </Link>
-                </p>
-                <p className="text-xs font-thin mt-2">
-                  Login as Admin?
-                  <Link
-                    className="font-semibold text-slate-800"
-                    href={"/login"}
-                  >
+                  Login as Business Owner?
+                  <Link className="font-semibold text-slate-800" href={"/"}>
                     {" "}
                     Click here
                   </Link>
@@ -256,4 +229,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

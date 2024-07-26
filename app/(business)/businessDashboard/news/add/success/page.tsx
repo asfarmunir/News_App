@@ -28,7 +28,7 @@ const page = () => {
           Now users will be able to see your alert on their feed.
         </p>
         <Link
-          href={"/businessDashboard/followers/add"}
+          href={"/businessDashboard/news/add"}
           className=" w-[95%] bg-primary rounded-lg py-5 text-white text-center  mt-4"
         >
           Add Another Post
