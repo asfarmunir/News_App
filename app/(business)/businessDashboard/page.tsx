@@ -20,7 +20,6 @@ const Page = async () => {
   const userData = JSON.parse(userCookie?.value) as IUser;
   const alertsCount = await getTotalAlerts(userData.email);
   const followers = await getBusinessFollowers(userData.email);
-  console.log("🚀 ~ Page ~ followers:", followers);
 
   return (
     <div className=" flex flex-col items-start justify-start p-4 bg-slate-50 w-full">
@@ -31,7 +30,9 @@ const Page = async () => {
               Total Alerts
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              {alertsCount! < 10 ? `0${alertsCount}` : alertsCount}
+              {alertsCount! < 10 && alertsCount! > 0
+                ? `0${alertsCount}`
+                : alertsCount}
             </h1>
           </div>
           <Image
@@ -47,11 +48,17 @@ const Page = async () => {
             <p className=" font-semibold text-xs md:text-base text-slate-400">
               Total Followers
             </p>
-            <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              {followers.length < 10
-                ? `0${followers.length}`
-                : followers.length}
-            </h1>
+            {followers ? (
+              <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+                {followers.length < 10 && followers.length > 0
+                  ? `0${followers.length}`
+                  : followers.length}
+              </h1>
+            ) : (
+              <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+                0
+              </h1>
+            )}
           </div>
           <Image
             src={"/icons/followersBlack.svg"}

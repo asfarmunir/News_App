@@ -96,7 +96,8 @@ export const getBusinessFollowers = async (businessEmail: string) => {
 
 export const getAllBusinesses = async () => {
   try {
-    const querySnapshot = await getDocs(collectionRef);
+    const q = query(collectionRef, where("requestAccepted", "==", true));
+    const querySnapshot = await getDocs( q);
     const businesses = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
         const businessData = doc.data();

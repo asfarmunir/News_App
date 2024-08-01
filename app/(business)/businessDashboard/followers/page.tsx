@@ -8,6 +8,7 @@ import { useAuth } from "@/utils/AuthProvider";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -57,27 +58,27 @@ const Page = () => {
 
   useEffect(() => {
     if (user && user.email) {
-      console.log("user", user);
-
       const BusinessDetails = async () => {
         const businessFollowers = await getBusinessFollowers(user.email);
         console.log("businessFollowers", businessFollowers);
-        setFollowers(businessFollowers);
-
-        const usersArray: User[] = [];
-        for (const follower of businessFollowers) {
-          const user = await fetchUserDetails(follower.userId);
-          if (user) {
-            usersArray.push({
-              name: user.name,
-              email: user.email,
-              phoneNumber: user.phoneNumber,
-              location: user.location,
-              followedOn: follower.followedOn,
-            });
+        if (businessFollowers) {
+          setFollowers(businessFollowers);
+          const usersArray: User[] = [];
+          for (const follower of businessFollowers) {
+            const user = await fetchUserDetails(follower.userId);
+            if (user) {
+              usersArray.push({
+                name: user.name,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                location: user.location,
+                followedOn: follower.followedOn,
+              });
+            }
           }
+          setUsers(usersArray);
         }
-        setUsers(usersArray);
+
         setLoading(false);
       };
 
@@ -87,7 +88,7 @@ const Page = () => {
   console.log("all user details", users);
 
   return (
-    <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
+    <div className=" flex flex-col items-start  justify-start p-4 gap-6 bg-slate-50 w-full">
       <Link href={"/businessDashboard/followers/add"}>
         <Button className=" ml-4 bg-primary text-base md:text-lg text-white px-6 md:px-10 py-6 md:py-7 rounded-lg">
           {" "}
@@ -95,10 +96,15 @@ const Page = () => {
           <IoMdAdd className="w-5 md:w-6 h-5 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
         </Button>
       </Link>
-      <div className=" bg-white p-5 px-8 rounded-md shadow-sm w-full">
+      <div className=" bg-white p-5  px-8 rounded-md shadow-sm w-full">
         <h2 className=" text-slate-900 font-bold text-2xl mb-4">Followers</h2>
         <Table>
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+          {!followers.length && (
+            <TableCaption className=" py-2">
+              {" "}
+              This business has no followers yet.{" "}
+            </TableCaption>
+          )}
           <TableHeader className=" bg-brown/50">
             <TableRow>
               <TableHead className=" text-slate-950 font-bold">PID</TableHead>
@@ -180,7 +186,7 @@ const Page = () => {
         )}
         <div className=" w-full flex items-center justify-between mt-3">
           <p className=" font-semibold text-xs md:text-sm text-slate-800">
-            Total Followers: 532
+            Total Followers: {followers.length}
           </p>
           <div className="hidden md:flex items-center">
             <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">

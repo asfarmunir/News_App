@@ -189,7 +189,9 @@ const Page = () => {
       <div className=" bg-white p-5 px-3 md:px-8 rounded-md shadow-sm w-full">
         <h2 className=" text-slate-900 font-bold text-2xl mb-4">Alerts</h2>
         <Table>
-          {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+          {!news.length && (
+            <TableCaption className=" py-2"> No Alerts added yet.</TableCaption>
+          )}
           <TableHeader className=" bg-brown/50">
             <TableRow>
               <TableHead className=" text-slate-950 font-bold text-center ">
@@ -360,44 +362,46 @@ const Page = () => {
           <p className=" font-semibold text-xs md:text-sm text-slate-800">
             Total Post: {count}
           </p>
-          <div className="hidden md:flex items-center gap-2">
-            <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
-              1 - {Math.ceil(count / pageLimit)} of Pages
-            </p>
+          {news.length > 0 && (
+            <div className="hidden md:flex items-center gap-2">
+              <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
+                1 - {Math.ceil(count / pageLimit)} of Pages
+              </p>
 
-            <button
-              disabled={page === 1}
-              onClick={handlePrevious}
-              className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
-            >
-              <FaArrowLeft />
-            </button>
-            <div className="flex gap-2">
-              {Array.from(
-                { length: Math.ceil(count / pageLimit) },
-                (_, index) => (
-                  <button
-                    key={index}
-                    className={`border disabled:bg-transparent disabled:border-slate-300 disabled:text-slate-300  disabled:cursor-not-allowed border-slate-500  w-10 h-10 font-thin flex items-center justify-center    rounded-lg ${
-                      page === index + 1
-                        ? "bg-primary  text-white"
-                        : "bg-white  text-black"
-                    }`}
-                    // disabled={page === index + 1}
-                  >
-                    {index + 1}
-                  </button>
-                )
-              )}
+              <button
+                disabled={page === 1}
+                onClick={handlePrevious}
+                className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
+              >
+                <FaArrowLeft />
+              </button>
+              <div className="flex gap-2">
+                {Array.from(
+                  { length: Math.ceil(count / pageLimit) },
+                  (_, index) => (
+                    <button
+                      key={index}
+                      className={`border disabled:bg-transparent disabled:border-slate-300 disabled:text-slate-300  disabled:cursor-not-allowed border-slate-500  w-10 h-10 font-thin flex items-center justify-center    rounded-lg ${
+                        page === index + 1
+                          ? "bg-primary  text-white"
+                          : "bg-white  text-black"
+                      }`}
+                      // disabled={page === index + 1}
+                    >
+                      {index + 1}
+                    </button>
+                  )
+                )}
+              </div>
+              <button
+                disabled={page >= Math.ceil(count / pageLimit)}
+                onClick={handleNext}
+                className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
+              >
+                <FaArrowRight />
+              </button>
             </div>
-            <button
-              disabled={page >= Math.ceil(count / pageLimit)}
-              onClick={handleNext}
-              className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
-            >
-              <FaArrowRight />
-            </button>
-          </div>
+          )}
         </div>
       </div>
     </div>
