@@ -20,14 +20,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<null | any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
-  //     console.log("AuthProvider -> user", user);
-  //     setUser(user);
-  //     setLoading(false);
-  //   });
-  //   return () => unsubscribe();
-  // }, []);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);

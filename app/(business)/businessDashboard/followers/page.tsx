@@ -1,13 +1,13 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { PiNewspaperFill } from "react-icons/pi";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
 import { FaAngleDown } from "react-icons/fa6";
-
+import { useAuth } from "@/utils/AuthProvider";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -32,7 +32,60 @@ import {
 } from "@/components/ui/pagination";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-const page = () => {
+import { getBusinessFollowers } from "@/lib/cruds/businessCrud";
+import { fetchUserDetails } from "@/lib/cruds/userCrud";
+import { ThreeDots } from "react-loader-spinner";
+
+interface Follower {
+  userId: string;
+  followedOn: any;
+}
+
+interface User {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  location: string;
+  followedOn: any;
+}
+
+const Page = () => {
+  const { user } = useAuth();
+  const [followers, setFollowers] = useState<Follower[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (user && user.email) {
+      console.log("user", user);
+
+      const BusinessDetails = async () => {
+        const businessFollowers = await getBusinessFollowers(user.email);
+        console.log("businessFollowers", businessFollowers);
+        setFollowers(businessFollowers);
+
+        const usersArray: User[] = [];
+        for (const follower of businessFollowers) {
+          const user = await fetchUserDetails(follower.userId);
+          if (user) {
+            usersArray.push({
+              name: user.name,
+              email: user.email,
+              phoneNumber: user.phoneNumber,
+              location: user.location,
+              followedOn: follower.followedOn,
+            });
+          }
+        }
+        setUsers(usersArray);
+        setLoading(false);
+      };
+
+      BusinessDetails();
+    }
+  }, [user]);
+  console.log("all user details", users);
+
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
       <Link href={"/businessDashboard/followers/add"}>
@@ -65,55 +118,73 @@ const page = () => {
               </TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200 text-slate-400">
-                #123
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                John Doe
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200 ">
-                asfark135@gmail.com
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                +234 123 456 7890
-              </TableCell>
-              <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
-                Lagos
-              </TableCell>
-              <TableCell className="font-bold border-b pb-4 pt-4 border-slate-200">
-                27/03/2024
-              </TableCell>
-              <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <FaAngleDown className="w-7 h-7 p-1.5 border border-slate-300 hover:border-slate-500 rounded-full text-slate-900" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-12 py-3">
-                      Hide Alert
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
+          {!loading && (
+            <TableBody>
+              {users.map((user, index) => (
+                <TableRow key={index}>
+                  <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200 text-slate-400">
+                    #{index + 1}
+                  </TableCell>
+                  <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                    {user.name}
+                  </TableCell>
+                  <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200 ">
+                    {user.email}
+                  </TableCell>
+                  <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                    {user.phoneNumber}
+                  </TableCell>
+                  <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                    {user.location}
+                  </TableCell>
+                  <TableCell className="font-bold border-b pb-4 pt-4 border-slate-200">
+                    {user.followedOn.toDate().toDateString()}
+                  </TableCell>
+                  <TableCell className="font-thin text-center border-b pb-4 pt-4 border-slate-200">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <FaAngleDown className="w-7 h-7 p-1.5 border border-slate-300 hover:border-slate-500 rounded-full text-slate-900" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem className="bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-12 py-3">
+                          Hide Alert
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
 
-                    <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-12 py-3">
-                      Block User
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          </TableBody>
+                        <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-12 py-3">
+                          Block User
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
+        {loading && (
+          <div className=" w-full flex py-4 justify-center">
+            <ThreeDots
+              visible={true}
+              height="50"
+              width="50"
+              color="#00000"
+              radius="9"
+              ariaLabel="three-dots-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </div>
+        )}
         <div className=" w-full flex items-center justify-between mt-3">
           <p className=" font-semibold text-xs md:text-sm text-slate-800">
             Total Followers: 532
           </p>
           <div className="hidden md:flex items-center">
             <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
-              1-2 of pages
+              1-2 of Pages
             </p>
             <Pagination>
               <PaginationContent>
@@ -139,4 +210,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

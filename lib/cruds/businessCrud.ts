@@ -1,4 +1,3 @@
-"use client"
 
 import {
   doc,
@@ -12,10 +11,12 @@ import {
   query,
   where,
   onSnapshot,
+  getCountFromServer
 } from 'firebase/firestore';
 import db from '@/lib/firebaseConfig';
 import { v4} from 'uuid';
 const collectionRef = collection(db, 'businesses');
+const alertsCollectionRef = collection(db, 'alerts');
 
 
 
@@ -40,7 +41,6 @@ const collectionRef = collection(db, 'businesses');
 export async function isBusinessApproved(email: string) {
   const businessRef = doc(collectionRef, email);
   const business = await getDoc(businessRef);
-  console.log("business", business);
 
   if (business.exists()) {
     console.log("business", business.data());
@@ -75,5 +75,49 @@ export async function approveRequest (email: string) {
     });
   } catch (error) {
     console.error(error);
+  }
+}
+
+export const getBusinessFollowers = async (businessEmail: string) => {
+  const businessDoc = doc(collectionRef, businessEmail);
+  const businessSnapshot = await getDoc(businessDoc);
+
+  if (businessSnapshot.exists()) {
+    
+    const businessData = businessSnapshot.data() 
+    
+    return businessData.followers;
+  } else {
+    console.error("No such business!");
+    return [];
+  }
+};
+
+
+export const getAllBusinesses = async () => {
+  try {
+    const querySnapshot = await getDocs(collectionRef);
+    const businesses = await Promise.all(
+      querySnapshot.docs.map(async (doc) => {
+        const businessData = doc.data();
+        const businessId = businessData.businessId;
+
+        const alertsQuery = query(alertsCollectionRef, where("creatorId", "==", businessId));
+        const alertsSnapshot = await getDocs(alertsQuery);
+        const totalAlerts = alertsSnapshot.size; // Count of alerts
+
+        // Return business data along with the total alerts count
+        return {
+          ...businessData,
+          totalAlerts,
+        };
+      })
+    );
+    
+    console.log("🚀 ~ getAllBusinesses ~ businesses:", businesses);
+    return businesses;
+  } catch (error) {
+    console.error("Error fetching businesses or alerts:", error);
+    return [];
   }
 }

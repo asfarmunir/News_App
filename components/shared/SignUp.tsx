@@ -12,10 +12,8 @@ import { auth } from "@/lib/firebaseConfig";
 import toast from "react-hot-toast";
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -68,7 +66,7 @@ const SignUp = () => {
       BusinessOwnerName: "Matt David",
       BusinessName: "Nike",
       BusinessCategory: "clothing",
-      PhoneNumber: 93298157238,
+      PhoneNumber: "93298157238",
     },
   });
 
@@ -78,12 +76,16 @@ const SignUp = () => {
     BusinessOwnerName: string;
     BusinessName: string;
     BusinessCategory: string;
-    PhoneNumber: number;
+    PhoneNumber: string;
   };
 
   async function onSubmit(values: submissionType) {
     setLoading(true);
     try {
+      const normalizedValues = {
+        ...values,
+        BusinessName: values.BusinessName.toLowerCase(), // Ensure the BusinessName is lowercase
+      };
       const createdUser = await createUserWithEmailAndPassword(
         auth,
         values.email,
@@ -91,9 +93,8 @@ const SignUp = () => {
       );
 
       if (createdUser) {
-        console.log("helo");
         const newValues = {
-          ...values,
+          ...normalizedValues,
           businessId: createdUser.user?.uid,
         };
         await addBusiness(newValues);
@@ -344,12 +345,9 @@ const SignUp = () => {
                 </Button>
                 <p className="text-xs font-thin mt-2">
                   Already have an account?
-                  <Link
-                    className="font-semibold text-slate-800"
-                    href={"/login"}
-                  >
+                  <Link className="font-semibold text-slate-800" href={"/"}>
                     {" "}
-                    Sign IN
+                    Sign In
                   </Link>
                 </p>
               </div>

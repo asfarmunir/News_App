@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -18,6 +18,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -25,6 +34,8 @@ import { isBusinessApproved } from "@/lib/cruds/businessCrud";
 import { ColorRing } from "react-loader-spinner";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
+import Cookies from "js-cookie"; // Import js-cookie
+
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email.",
@@ -45,10 +56,12 @@ const Login = () => {
       password: "nike1234",
     },
   });
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   const router = useRouter();
   async function onSubmit(values: { email: string; password: string }) {
     const { email, password } = values;
+    setValidation("");
     setLoading(true);
     const isApproved = await isBusinessApproved(email);
     console.log("isApproved", isApproved);
@@ -56,7 +69,18 @@ const Login = () => {
     if (typeof isApproved === "boolean" && isApproved) {
       console.log("success");
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const user = await signInWithEmailAndPassword(auth, email, password);
+        const userObj = {
+          email: user.user.email,
+          uid: user.user.uid,
+        };
+        console.log("🚀 ~ onSubmit ~ user:", user);
+        sessionStorage.setItem("isAdmin", "false");
+        sessionStorage.setItem("isLoggedIn", "true");
+        Cookies.set("isAdmin", "false"); // Set the isAdmin cookie
+        Cookies.set("isLoggedIn", "true"); // Set the isLoggedIn cookie
+        Cookies.set("user", JSON.stringify(userObj));
+
         setLoading(false);
         toast.success("Login Successful");
         router.push("/businessDashboard");
@@ -70,7 +94,9 @@ const Login = () => {
       if (typeof isApproved === "object" && isApproved.message) {
         setValidation("Invalid email or password");
       } else {
-        toast.error("Your request is not approved yet");
+        if (triggerRef.current) {
+          triggerRef.current.click();
+        }
       }
     }
   }
@@ -130,7 +156,38 @@ const Login = () => {
           "
         />
       </div>
-      <div className=" w-full md:w-[60%]  h-full flex items-start justify-start p-8 px-10 md:px-28  flex-col gap-6  ">
+      <div className=" w-full md:w-[60%] overflow-y-auto max-h-screen  flex items-start justify-start p-8 px-10 md:px-28  flex-col gap-6  ">
+        <AlertDialog>
+          <AlertDialogTrigger ref={triggerRef} className=" hidden">
+            Open
+          </AlertDialogTrigger>
+          <AlertDialogContent className=" bg-white flex flex-col items-center justify-center">
+            <Image
+              src="/images/reqSent.png"
+              alt="sent"
+              width={180}
+              height={180}
+              className="
+                 mb-4
+                "
+            />
+            <AlertDialogHeader className=" pb-8">
+              <AlertDialogTitle className="text-2xl text-center mb-4">
+                Your request is not approved yet
+              </AlertDialogTitle>
+              <p className="text-gray-500   font-thin text-center">
+                Your request is not approved yet. Please wait for the approval.
+                We will notify you once your request is approved, Thank you.
+              </p>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className=" bg-slate-800 text-lg mt-8   text-white rounded-full px-16 py-6">
+                Okay
+              </AlertDialogCancel>
+              {/* <AlertDialogAction>Okay</AlertDialogAction> */}
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
         <h2 className=" text-2xl font-bold">News App</h2>
         <h4 className="  text-slate-600 ">Welcome back!!!</h4>
         <h1

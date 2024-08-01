@@ -9,14 +9,26 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
 
-const Sidebar = ({ links }) => {
+const Sidebar = ({
+  links,
+}: {
+  links: {
+    name: string;
+    href: string;
+    icon: string;
+  }[];
+}) => {
   const router = useRouter();
   const handleSignOut = async () => {
     try {
       await signOut(auth);
       console.log("User signed out");
       toast.success("User signed out");
+      Cookies.remove("isAdmin");
+      Cookies.remove("isLoggedIn");
+
       router.push("/");
     } catch (error) {
       console.error("Error signing out:", error);

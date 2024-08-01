@@ -37,7 +37,7 @@ const formSchema = z.object({
   }),
 });
 
-const page = () => {
+const Page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,7 +49,7 @@ const page = () => {
   });
 
   const router = useRouter();
-  async function onSubmit(values) {
+  async function onSubmit(values: any) {
     console.log(values);
     router.push("/businessDashboard/news/add/success");
   }
@@ -217,4 +217,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

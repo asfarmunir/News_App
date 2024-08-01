@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { PiNewspaperFill } from "react-icons/pi";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa6";
-
+import { FaAngleDown, FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { useAuth } from "@/utils/AuthProvider";
 import {
   Table,
   TableBody,
@@ -53,9 +53,15 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
+  QueryDocumentSnapshot,
+  startAfter,
+  endBefore,
+  limitToLast,
 } from "firebase/firestore";
 import db from "@/lib/firebaseConfig";
 import { ThreeDots } from "react-loader-spinner";
+import { deleteAlert } from "@/lib/cruds/newsCrud";
 
 interface IAlert {
   name: string;
@@ -65,43 +71,111 @@ interface IAlert {
   creatorId: string;
   creatorEmail: string;
   timeStamps: string;
+  newsId: string;
 }
 
 const Page = () => {
   const collectionRef = collection(db, "alerts");
-
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [news, setNews] = useState<IAlert[]>([]);
   const [count, setCount] = useState(0);
-
   const pageLimit = 10;
+  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot | null>(null);
+  const [firstDoc, setFirstDoc] = useState<QueryDocumentSnapshot | null>(null);
+  const [page, setPage] = useState(1);
 
-  const fetchData = async () => {
+  const fetchData = async (userEmail: string) => {
     setLoading(true);
 
-    const docsCount = await getCountFromServer(collectionRef);
+    const countQuery = query(
+      collectionRef,
+      where("creatorEmail", "==", userEmail)
+    );
+    const docsCount = await getCountFromServer(countQuery); // Adjust collection path if necessary
     setCount(docsCount.data().count);
 
-    const q = query(collectionRef, orderBy("name"), limit(pageLimit));
+    const q = query(
+      collectionRef,
+      where("creatorEmail", "==", userEmail),
+      orderBy("name"),
+      limit(pageLimit)
+    );
+
     const unsub = onSnapshot(q, (querySnapshot) => {
       const items: IAlert[] = [];
       querySnapshot.forEach((doc) => {
         items.push(doc.data() as IAlert);
       });
       setNews(items);
-      // setFirstDoc(querySnapshot.docs[0]);
-      // setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
       setLoading(false);
+      setFirstDoc(querySnapshot.docs[0]);
+      setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
     });
+
     return () => unsub();
   };
 
   useEffect(() => {
-    fetchData();
+    if (user && user.email) {
+      fetchData(user.email);
+    }
     // eslint-disable-next-line
-  }, []);
+  }, [user]);
 
-  console.log("news", news);
+  const handleNext = () => {
+    if (lastDoc) {
+      setLoading(true);
+      const q = query(
+        collectionRef,
+        orderBy("name"),
+        startAfter(lastDoc),
+        limit(pageLimit)
+      );
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        const items: IAlert[] = [];
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data() as IAlert);
+        });
+        setNews(items);
+        setFirstDoc(querySnapshot.docs[0]);
+        setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        setPage(page + 1);
+        setLoading(false);
+      });
+      return () => unsub();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (page > 1 && firstDoc) {
+      setLoading(true);
+      const q = query(
+        collectionRef,
+        orderBy("name"),
+        endBefore(firstDoc),
+        limitToLast(pageLimit)
+      );
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        const items: IAlert[] = [];
+        querySnapshot.forEach((doc) => {
+          items.push(doc.data() as IAlert);
+        });
+        setNews(items);
+        setFirstDoc(querySnapshot.docs[0]);
+        setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        setPage(page - 1);
+        setLoading(false);
+      });
+      return () => unsub();
+    }
+  };
+
+  const deleteHandler = (id: string) => async () => {
+    setLoading(true);
+    await deleteAlert(id);
+    setLoading(false);
+  };
 
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
@@ -149,7 +223,7 @@ const Page = () => {
                         <AlertDialogTrigger className=" capitalize truncate max-w-28 font-bold ">
                           {item.name}
                         </AlertDialogTrigger>
-                        <AlertDialogContent className=" bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
+                        <AlertDialogContent className=" md:min-w-[800px] bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
                           <div className=" w-full flex items-end justify-end">
                             <AlertDialogCancel className=" bg-red-500 text-white text-lg font-bold rounded-md">
                               <IoClose className=" w-6 h-6 font-semibold " />
@@ -161,7 +235,7 @@ const Page = () => {
                             </AlertDialogTitle>
                           </AlertDialogHeader>
 
-                          <AlertDialogDescription className=" capitalize text-slate-900 pb-6 px-12">
+                          <AlertDialogDescription className=" capitalize max-h-72 overflow-y-auto text-slate-900 pb-6 px-12">
                             {item.description}
                           </AlertDialogDescription>
                           <div className=" w-full flex items-center justify-between px-12 mb-8">
@@ -203,7 +277,7 @@ const Page = () => {
                             <AlertDialogTrigger className="bg-gray-200/70 hover:bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
                               View full details
                             </AlertDialogTrigger>
-                            <AlertDialogContent className=" bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
+                            <AlertDialogContent className=" md:min-w-[800px] bg-white  flex items-center justify-center flex-col py-3 gap-6 ">
                               <div className=" w-full flex items-end justify-end">
                                 <AlertDialogCancel className=" bg-red-500 text-white text-lg font-bold rounded-md">
                                   <IoClose className=" w-6 h-6 font-semibold " />
@@ -215,7 +289,7 @@ const Page = () => {
                                 </AlertDialogTitle>
                               </AlertDialogHeader>
 
-                              <AlertDialogDescription className=" capitalize text-slate-900 pb-6 px-12">
+                              <AlertDialogDescription className=" capitalize max-h-72 overflow-y-auto text-slate-900 pb-6 px-12">
                                 {item.description}
                               </AlertDialogDescription>
                               <div className=" w-full flex items-center justify-between px-12 mb-8">
@@ -235,10 +309,30 @@ const Page = () => {
                             </AlertDialogContent>
                           </AlertDialog>
                           <DropdownMenuSeparator />
-
-                          <button className="bg-red-100 my-1 hover:bg-red-200 font-semibold text-red-700 text-center w-full px-8 py-3">
-                            Delete Post
-                          </button>
+                          <AlertDialog>
+                            <AlertDialogTrigger className="bg-red-100 my-1 hover:bg-red-200 font-semibold text-red-700 text-center w-full px-8 py-3">
+                              Delete Post
+                            </AlertDialogTrigger>
+                            <AlertDialogContent className="  bg-white  flex items-center justify-center flex-col py-12 gap-6 ">
+                              <h2 className=" text-slate-800 font-semibold text-lg">
+                                {" "}
+                                Are you sure want to delete this news
+                              </h2>
+                              <div className=" w-full flex items-center justify-center gap-4">
+                                <Button
+                                  onClick={deleteHandler(item.newsId)}
+                                  className=" bg-red-600 text-white px-12 py-3 rounded-lg"
+                                >
+                                  {" "}
+                                  Yes{" "}
+                                </Button>
+                                <AlertDialogCancel className=" bg-gray-200 text-slate-900 px-12 py-3 rounded-lg">
+                                  {" "}
+                                  No{" "}
+                                </AlertDialogCancel>
+                              </div>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -262,31 +356,47 @@ const Page = () => {
             />
           </div>
         )}
-        <div className=" w-full flex items-center justify-between mt-3">
+        <div className=" w-full flex items-center justify-between mt-3 gap-4">
           <p className=" font-semibold text-xs md:text-sm text-slate-800">
             Total Post: {count}
           </p>
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center gap-2">
             <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
-              1-2 of Pages
+              1 - {Math.ceil(count / pageLimit)} of Pages
             </p>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  {/* <PaginationEllipsis /> */}
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+
+            <button
+              disabled={page === 1}
+              onClick={handlePrevious}
+              className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
+            >
+              <FaArrowLeft />
+            </button>
+            <div className="flex gap-2">
+              {Array.from(
+                { length: Math.ceil(count / pageLimit) },
+                (_, index) => (
+                  <button
+                    key={index}
+                    className={`border disabled:bg-transparent disabled:border-slate-300 disabled:text-slate-300  disabled:cursor-not-allowed border-slate-500  w-10 h-10 font-thin flex items-center justify-center    rounded-lg ${
+                      page === index + 1
+                        ? "bg-primary  text-white"
+                        : "bg-white  text-black"
+                    }`}
+                    // disabled={page === index + 1}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              )}
+            </div>
+            <button
+              disabled={page >= Math.ceil(count / pageLimit)}
+              onClick={handleNext}
+              className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
+            >
+              <FaArrowRight />
+            </button>
           </div>
         </div>
       </div>

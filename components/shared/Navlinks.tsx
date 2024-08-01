@@ -2,7 +2,15 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const Navlinks = ({ links }) => {
+interface NavlinksProps {
+  links: {
+    name: string;
+    href: string;
+    icon: [JSX.Element, JSX.Element];
+  }[];
+}
+
+const Navlinks = ({ links }: NavlinksProps) => {
   const currentPath = usePathname();
 
   return (

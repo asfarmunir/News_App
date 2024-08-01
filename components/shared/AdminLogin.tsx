@@ -24,6 +24,7 @@ import Link from "next/link";
 import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "@/lib/firebaseConfig";
 import { ColorRing } from "react-loader-spinner";
+import Cookies from "js-cookie";
 const formSchema = z.object({
   email: z.string().email({
     message: "Please enter a valid email.",
@@ -45,16 +46,6 @@ const AdminLogin = () => {
     },
   });
 
-  //remove this
-  const handleSignOut = async () => {
-    try {
-      await signOut(auth);
-      console.log("User signed out");
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  };
-
   const router = useRouter();
   async function onSubmit(values: { email: string; password: string }) {
     const { email, password } = values;
@@ -62,6 +53,9 @@ const AdminLogin = () => {
     setValidation("");
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      Cookies.set("isAdmin", "true"); // Set the isAdmin cookie
+      Cookies.set("isLoggedIn", "true"); // Set the isLoggedIn cookie
+
       setLoading(false);
       toast.success("Welcome Admin");
       router.push("/adminDashboard");
@@ -106,17 +100,9 @@ const AdminLogin = () => {
           "
         />
       </div>
-      <div className=" w-full md:w-[60%]  h-full flex items-start justify-start p-8 px-10 md:px-28  flex-col gap-6  ">
+      <div className=" w-full md:w-[60%] max-h-screen overflow-y-scroll flex items-start justify-start p-8 px-10 md:px-28  flex-col gap-6  ">
         <h2 className=" text-2xl font-bold">News App</h2>
-        <button
-          onClick={handleSignOut}
-          className={
-            "flex font-bold  items-center gap-4 px-12 mt-2 w-full p-4 text-brown/100  "
-          }
-        >
-          <FaArrowLeftLong className="w-3 h-3 mr-1" />
-          Log Out
-        </button>
+
         <h4 className="  text-slate-600 ">Welcome back!!!</h4>
         <h1
           className="

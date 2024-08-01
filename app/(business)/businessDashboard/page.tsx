@@ -1,8 +1,27 @@
 import React from "react";
-import { PiNewspaperFill } from "react-icons/pi";
 import Graph from "@/components/shared/Graph";
 import Image from "next/image";
-const page = () => {
+import { getTotalAlerts } from "@/lib/cruds/newsCrud";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { getBusinessFollowers } from "@/lib/cruds/businessCrud";
+
+interface IUser {
+  email: string;
+  uid: string;
+}
+
+const Page = async () => {
+  const cookieStore = cookies();
+  const userCookie = cookieStore.get("user");
+  if (!userCookie) {
+    redirect("/");
+  }
+  const userData = JSON.parse(userCookie?.value) as IUser;
+  const alertsCount = await getTotalAlerts(userData.email);
+  const followers = await getBusinessFollowers(userData.email);
+  console.log("🚀 ~ Page ~ followers:", followers);
+
   return (
     <div className=" flex flex-col items-start justify-start p-4 bg-slate-50 w-full">
       <div className=" flex items-center justify-normal flex-wrap sm:flex-nowrap gap-2 md:gap-6  p-4 w-full">
@@ -12,7 +31,7 @@ const page = () => {
               Total Alerts
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              1200
+              {alertsCount! < 10 ? `0${alertsCount}` : alertsCount}
             </h1>
           </div>
           <Image
@@ -29,7 +48,9 @@ const page = () => {
               Total Followers
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              830
+              {followers.length < 10
+                ? `0${followers.length}`
+                : followers.length}
             </h1>
           </div>
           <Image
@@ -133,4 +154,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
