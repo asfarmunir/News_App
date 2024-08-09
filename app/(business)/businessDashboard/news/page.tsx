@@ -128,6 +128,7 @@ const Page = () => {
       setLoading(true);
       const q = query(
         collectionRef,
+        where("creatorEmail", "==", user.email),
         orderBy("name"),
         startAfter(lastDoc),
         limit(pageLimit)
@@ -152,6 +153,7 @@ const Page = () => {
       setLoading(true);
       const q = query(
         collectionRef,
+        where("creatorEmail", "==", user.email),
         orderBy("name"),
         endBefore(firstDoc),
         limitToLast(pageLimit)
@@ -174,6 +176,7 @@ const Page = () => {
   const deleteHandler = (id: string) => async () => {
     setLoading(true);
     await deleteAlert(id);
+    setCount(count - 1);
     setLoading(false);
   };
 
@@ -189,7 +192,7 @@ const Page = () => {
       <div className=" bg-white p-5 px-3 md:px-8 rounded-md shadow-sm w-full">
         <h2 className=" text-slate-900 font-bold text-2xl mb-4">Alerts</h2>
         <Table>
-          {!news.length && (
+          {!news.length && !loading && (
             <TableCaption className=" py-2"> No Alerts added yet.</TableCaption>
           )}
           <TableHeader className=" bg-brown/50">

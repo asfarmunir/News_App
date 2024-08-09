@@ -44,16 +44,15 @@ const Page = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "title",
+      name: "",
       link: "www.link.com",
-      description: "description",
-      date: "2022-12-12",
+      description: "description is just bullshit nothing more",
+      date: "2024-02-12",
     },
   });
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user } = useAuth();
-  console.log("user", user);
 
   interface IFormInput {
     name: string;
@@ -74,12 +73,12 @@ const Page = () => {
       await addAlert(newsData);
       setIsLoading(false);
       toast.success("Alert added successfully");
+      router.push("/businessDashboard/news/add/success");
     } catch (e) {
       console.log(e);
       setIsLoading(false);
       toast.error("Error adding alert");
     }
-    router.push("/businessDashboard/news/add/success");
   }
   return (
     <div className=" flex flex-col w-full items-start justify-start p-5 px-4 md:px-8">

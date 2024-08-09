@@ -11,7 +11,9 @@ import {
   query,
   where,
   onSnapshot,
-  getCountFromServer
+  getCountFromServer,
+  orderBy,
+  limit
 } from 'firebase/firestore';
 import db from '@/lib/firebaseConfig';
 import { v4} from 'uuid';
@@ -79,7 +81,7 @@ export async function approveRequest (email: string) {
 }
 
 export const getBusinessFollowers = async (businessEmail: string) => {
-  const businessDoc = doc(collectionRef, businessEmail);
+  const businessDoc = doc( collectionRef, businessEmail);
   const businessSnapshot = await getDoc(businessDoc);
 
   if (businessSnapshot.exists()) {
@@ -92,7 +94,6 @@ export const getBusinessFollowers = async (businessEmail: string) => {
     return [];
   }
 };
-
 
 export const getAllBusinesses = async () => {
   try {

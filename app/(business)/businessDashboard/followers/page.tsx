@@ -99,7 +99,7 @@ const Page = () => {
       <div className=" bg-white p-5  px-8 rounded-md shadow-sm w-full">
         <h2 className=" text-slate-900 font-bold text-2xl mb-4">Followers</h2>
         <Table>
-          {!followers.length && (
+          {!followers.length && !loading && (
             <TableCaption className=" py-2">
               {" "}
               This business has no followers yet.{" "}

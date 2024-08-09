@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { PiNewspaperFill } from "react-icons/pi";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa6";
+import { FaAngleDown, FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 import {
   Table,
@@ -37,8 +37,16 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { PiWarningOctagonLight } from "react-icons/pi";
 import {
   collection,
+  endBefore,
   getCountFromServer,
+  getDocs,
+  limit,
+  limitToLast,
+  onSnapshot,
+  orderBy,
   query,
+  QueryDocumentSnapshot,
+  startAfter,
   where,
 } from "firebase/firestore";
 import db from "@/lib/firebaseConfig";
@@ -47,28 +55,181 @@ import { ThreeDots } from "react-loader-spinner";
 
 const Page = () => {
   const collectionRef = collection(db, "businesses");
+  const alertsCollectionRef = collection(db, "alerts");
+
   const [requestCount, setRequestCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [businesses, setBusinesses] = useState<any | null>([]);
+  const [count, setCount] = useState(0);
+  const pageLimit = 10;
+  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot | null>(null);
+  const [firstDoc, setFirstDoc] = useState<QueryDocumentSnapshot | null>(null);
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     const fetchCount = async () => {
       const q = query(collectionRef, where("requestAccepted", "==", false));
-
-      // Get the count of documents matching the query
       const docsCount = await getCountFromServer(q);
       setRequestCount(docsCount.data().count);
     };
     fetchCount();
   }, [collectionRef]);
-  useEffect(() => {
-    const fetchAllBusinesses = async () => {
-      const businesses = await getAllBusinesses();
-      console.log("🚀 ~ fetchAllBusinesses ~ businesses:", businesses);
-      setBusinesses(businesses);
+
+  const fetchData = async () => {
+    setLoading(true);
+
+    try {
+      const countQuery = query(
+        collectionRef,
+        where("requestAccepted", "==", true)
+      );
+      const docsCount = await getCountFromServer(countQuery);
+      setCount(docsCount.data().count);
+
+      const q = query(
+        collectionRef,
+        where("requestAccepted", "==", true),
+        orderBy("timestamp", "desc"),
+        limit(pageLimit)
+      );
+
+      const unsub = onSnapshot(q, async (querySnapshot) => {
+        const items: any[] = [];
+
+        const businessPromises = querySnapshot.docs.map(async (docSnapshot) => {
+          const businessData = docSnapshot.data();
+          const businessId = businessData.businessId;
+
+          const alertsQuery = query(
+            alertsCollectionRef,
+            where("creatorId", "==", businessId)
+          );
+          const alertsSnapshot = await getDocs(alertsQuery);
+          const totalAlerts = alertsSnapshot.size;
+
+          return {
+            ...businessData,
+            totalAlerts,
+          };
+        });
+
+        const resolvedBusinesses = await Promise.all(businessPromises);
+        setBusinesses(resolvedBusinesses);
+        setLoading(false);
+
+        setFirstDoc(querySnapshot.docs[0]);
+        setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      });
+
+      return () => unsub(); // Unsubscribe from the snapshot listener when the component unmounts
+    } catch (error) {
+      console.error("Error fetching data:", error);
       setLoading(false);
-    };
-    fetchAllBusinesses();
-  }, [collectionRef]);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleNext = () => {
+    if (lastDoc) {
+      setLoading(true);
+
+      const q = query(
+        collectionRef,
+        where("requestAccepted", "==", true),
+        orderBy("timestamp", "desc"),
+        startAfter(lastDoc),
+        limit(pageLimit)
+      );
+
+      const unsub = onSnapshot(q, async (querySnapshot) => {
+        const items: any[] = [];
+
+        try {
+          // Fetch alerts count for each business asynchronously
+          const businessPromises = querySnapshot.docs.map(
+            async (docSnapshot) => {
+              const businessData = docSnapshot.data();
+              const businessId = businessData.businessId;
+
+              // Query to get the total alerts for the current business
+              const alertsQuery = query(
+                alertsCollectionRef,
+                where("creatorId", "==", businessId)
+              );
+              const alertsSnapshot = await getDocs(alertsQuery);
+              const totalAlerts = alertsSnapshot.size;
+
+              return {
+                ...businessData,
+                totalAlerts,
+              };
+            }
+          );
+
+          // Resolve all the promises and update the items array
+          const resolvedBusinesses = await Promise.all(businessPromises);
+          items.push(...resolvedBusinesses);
+
+          // Update state with the new page of data
+          setBusinesses(items);
+          setFirstDoc(querySnapshot.docs[0]);
+          setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+          setPage((prevPage) => prevPage + 1);
+        } catch (error) {
+          console.error("Error fetching businesses:", error);
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      return () => unsub();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (page > 1 && firstDoc) {
+      setLoading(true);
+      const q = query(
+        collectionRef,
+        where("requestAccepted", "==", true),
+        orderBy("timestamp", "desc"),
+        endBefore(firstDoc),
+        limitToLast(pageLimit)
+      );
+      const unsub = onSnapshot(q, async (querySnapshot) => {
+        const items: any[] = [];
+
+        for (const doc of querySnapshot.docs) {
+          const businessData = doc.data();
+          const businessId = businessData.businessId;
+
+          const alertsQuery = query(
+            alertsCollectionRef,
+            where("creatorId", "==", businessId)
+          );
+          const alertsSnapshot = await getDocs(alertsQuery);
+          const totalAlerts = alertsSnapshot.size; // Count of alerts
+
+          items.push({
+            ...businessData,
+            totalAlerts,
+          });
+        }
+
+        setBusinesses(items);
+        setFirstDoc(querySnapshot.docs[0]);
+        setLastDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+        setPage(page - 1);
+        setLoading(false);
+      });
+
+      return () => unsub();
+    }
+  };
 
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
@@ -201,29 +362,45 @@ const Page = () => {
         )}
         <div className=" w-full flex items-center justify-between mt-3">
           <p className=" font-semibold text-xs md:text-sm text-slate-800">
-            Total Followers: 532
+            Total Businesses: {count}
           </p>
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center gap-2">
             <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
-              1-2 of Pages
+              1 - {Math.ceil(count / pageLimit)} of Pages
             </p>
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">1</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  {/* <PaginationEllipsis /> */}
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+
+            <button
+              disabled={page === 1}
+              onClick={handlePrevious}
+              className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
+            >
+              <FaArrowLeft />
+            </button>
+            <div className="flex gap-2">
+              {Array.from(
+                { length: Math.ceil(count / pageLimit) },
+                (_, index) => (
+                  <button
+                    key={index}
+                    className={`border disabled:bg-transparent disabled:border-slate-300 disabled:text-slate-300  disabled:cursor-not-allowed border-slate-500  w-10 h-10 font-thin flex items-center justify-center    rounded-lg ${
+                      page === index + 1
+                        ? "bg-primary  text-white"
+                        : "bg-white  text-black"
+                    }`}
+                    // disabled={page === index + 1}
+                  >
+                    {index + 1}
+                  </button>
+                )
+              )}
+            </div>
+            <button
+              disabled={page >= Math.ceil(count / pageLimit)}
+              onClick={handleNext}
+              className="disabled:bg-transparent border  disabled:cursor-not-allowed disabled:border-slate-300 disabled:text-slate-300 border-slate-500 text-slate-500 py-3 font-thin px-3  text-sm  rounded-lg inline-flex items-center"
+            >
+              <FaArrowRight />
+            </button>
           </div>
         </div>
       </div>

@@ -157,9 +157,12 @@ const Requests = () => {
 
         <div className=" w-full flex items-center justify-between mt-3">
           <p className=" font-semibold text-xs md:text-sm text-slate-800">
-            Total Followers: 532
+            Total Requests:{" "}
+            {requests.length < 10 && requests.length > 0
+              ? `0${requests.length}`
+              : requests.length}
           </p>
-          <div className="hidden md:flex items-center">
+          {/* <div className="hidden md:flex items-center">
             <p className=" font-semibold text-sm text-nowrap text-slate-800 mr-2">
               1-2 of pages
             </p>
@@ -172,7 +175,6 @@ const Requests = () => {
                   <PaginationLink href="#">1</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                  {/* <PaginationEllipsis /> */}
                   <PaginationLink href="#">2</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
@@ -180,7 +182,7 @@ const Requests = () => {
                 </PaginationItem>
               </PaginationContent>
             </Pagination>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

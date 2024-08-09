@@ -17,10 +17,11 @@ import { v4} from 'uuid';
 
 const collectionRef = collection(db, 'alerts');
 
-const id = v4();
+
 
 export async function addAlert(data: any) {
-
+    const id = v4();
+    console.log("🚀 ~ id:", id)
   const alertData = {
     ...data,
     newsId:id,
@@ -28,7 +29,7 @@ export async function addAlert(data: any) {
   }
   console.log("alertData",alertData);
   try {
-    const alertRef = doc(collectionRef, id);    
+    const alertRef =  doc(collectionRef, id);    
      await setDoc(alertRef, alertData);
     return {
         message: "Alert added successfully"

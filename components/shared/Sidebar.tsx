@@ -11,15 +11,13 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-const Sidebar = ({
-  links,
-}: {
-  links: {
-    name: string;
-    href: string;
-    icon: string;
-  }[];
-}) => {
+interface ILink {
+  name: string;
+  icon: [JSX.Element, JSX.Element];
+  href: string;
+}
+
+const Sidebar = ({ links }: { links: ILink[] }) => {
   const router = useRouter();
   const handleSignOut = async () => {
     try {
