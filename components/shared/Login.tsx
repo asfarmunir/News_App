@@ -52,8 +52,8 @@ const Login = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "test@gmail.com",
-      password: "nike1234",
+      email: "lv@gmail.com",
+      password: "lv123456",
     },
   });
   const triggerRef = useRef<HTMLButtonElement>(null);

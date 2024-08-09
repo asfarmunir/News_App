@@ -80,7 +80,7 @@ const Page = () => {
   const [loading, setLoading] = useState(false);
   const [news, setNews] = useState<IAlert[]>([]);
   const [count, setCount] = useState(0);
-  const pageLimit = 10;
+  const pageLimit = 6;
   const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot | null>(null);
   const [firstDoc, setFirstDoc] = useState<QueryDocumentSnapshot | null>(null);
   const [page, setPage] = useState(1);
