@@ -46,7 +46,7 @@ const Page = () => {
     defaultValues: {
       name: "",
       link: "www.link.com",
-      description: "description is just bullshit nothing more",
+      description: "description is just nothing more",
       date: "2024-02-12",
     },
   });
