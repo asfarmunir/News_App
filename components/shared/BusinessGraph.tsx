@@ -213,7 +213,7 @@ const Graph: React.FC<GraphProps> = ({ news }) => {
                 className="pb-1 mr-4 font-mulish"
                 style={{ fontSize: "28px", fontWeight: "900" }}
               >
-                News Posted
+                Registered Businesses
               </div>
               <div>
                 <MyDropdownMenu setFilter={setFilter} />
@@ -247,11 +247,12 @@ const Graph: React.FC<GraphProps> = ({ news }) => {
               type="number"
               domain={[0, maxValue]}
               axisLine={false}
-              tickFormatter={(tick) => tick.toString()}
               tickLine={false}
               tick={{ fill: "black" }}
               padding={{ top: 5, bottom: 5 }}
+              tickFormatter={(tick) => tick.toFixed(0)} // Convert to whole numbers
             />
+
             <Tooltip formatter={(value) => [`Count: ${value}`]} />
             <Bar dataKey="uv" fill="black" barSize={12} shape={<CustomBar />} />
           </BarChart>
@@ -263,7 +264,7 @@ const Graph: React.FC<GraphProps> = ({ news }) => {
 
 // Replace this with a real Firestore fetch function
 const fetchNewsFromFirestore = async (): Promise<NewsItem[]> => {
-  const querySnapshot = await getDocs(collection(db, "alerts"));
+  const querySnapshot = await getDocs(collection(db, "businesses"));
   const newsData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     timestamp: doc.data().timestamp, // assuming timestamp is a Firebase Timestamp

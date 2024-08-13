@@ -121,8 +121,6 @@ interface IAlert {
 
 export const getAllAlerts = async (name: string): Promise<IAlert[]> => {
   const searchText = name.toLowerCase();
-  console.log("🚀 ~ getAllAlerts ~ searchText:", searchText);
-
   try {
     let alertsWithUserDetails: IAlert[] = [];
 
@@ -150,7 +148,6 @@ export const getAllAlerts = async (name: string): Promise<IAlert[]> => {
         })
       );
     } else {
-      // If email is not empty, find the business by name and fetch alerts posted by that business
       const businessQuery = query(collection(db, "businesses"), where("BusinessName", "==", searchText));
       const businessSnapshot = await getDocs(businessQuery);
 
@@ -191,3 +188,16 @@ export const getAllAlerts = async (name: string): Promise<IAlert[]> => {
     return [];
   }
 };
+
+export const getAllAlertsforStats = async () => {
+  try {
+    const querySnapshot = await getDocs(collectionRef);
+    let alerts: IAlert[] = [];
+    querySnapshot.forEach((doc) => {
+      alerts.push(doc.data() as IAlert);
+    });
+    return alerts as IAlert[];
+  } catch (error) {
+    console.error(error)
+  }
+}

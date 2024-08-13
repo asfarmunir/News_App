@@ -5,6 +5,7 @@ import { getTotalAlerts } from "@/lib/cruds/newsCrud";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getBusinessFollowers } from "@/lib/cruds/businessCrud";
+import AlertStats from "@/components/shared/AlertStats";
 
 interface IUser {
   email: string;
@@ -106,57 +107,7 @@ const Page = async () => {
 
       <Graph />
 
-      <div className=" bg-white p-5 rounded-lg w-full">
-        <h3 className=" text-slate-800 font-bold text-2xl pb-3">Statistics</h3>
-
-        <div className="flex items-center justify-start gap-3  md:gap-6 flex-wrap">
-          <div className=" bg-brown/30 w-full sm:w-fit flex items-center justify-start sm:justify-center py-3 md:py-5 px-5 md:px-8 rounded-lg">
-            <Image
-              src={"/images/growth.png"}
-              width={40}
-              height={40}
-              alt="growth"
-              className=" mr-3 "
-            />
-            <div>
-              <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Most Alerts(month)
-              </p>
-              <h3 className=" text-sm md:text-base font-semibold">March</h3>
-            </div>
-          </div>
-          <div className=" bg-brown/30 flex w-full sm:w-fit items-center justify-start sm:justify-center py-3 md:py-5 px-5 md:px-8 rounded-lg">
-            <Image
-              src={"/images/wallet.png"}
-              width={40}
-              height={40}
-              alt="growth"
-              className=" mr-3"
-            />
-            <div>
-              <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Average Posting (month)
-              </p>
-              <h3 className=" text-sm md:text-base font-semibold">2000 SAR</h3>
-            </div>
-          </div>
-          <div className=" bg-brown/30 flex w-full sm:w-fit items-center justify-start sm:justify-center py-1 md:py-2 px-2 md:px-8 rounded-lg">
-            <Image
-              src={"/images/loss.png"}
-              width={50}
-              height={50}
-              className=" mr-2 w-[70px] h-[68px]"
-              alt="growth"
-            />
-            <div>
-              <p className=" text-slate-700 text-xs md:text-sm font-thin">
-                Least Alerts(month)
-              </p>
-              <h3 className=" text-sm md:text-base font-semibold">April</h3>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AlertStats />
     </div>
   );
 };
