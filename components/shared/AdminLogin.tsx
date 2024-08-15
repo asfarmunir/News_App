@@ -78,6 +78,7 @@ const AdminLogin = () => {
           src="/images/box.png"
           alt="Login"
           width={1000}
+          priority
           height={800}
           className="
           object-cover
@@ -89,6 +90,7 @@ const AdminLogin = () => {
         <Image
           src="/images/Group.png"
           alt="Login"
+          priority
           width={1000}
           height={800}
           className="

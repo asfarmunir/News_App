@@ -47,6 +47,8 @@ const formSchema = z.object({
 
 const Login = () => {
   // ignote Eslint error
+  const [alertTitle, setAlertTitle] = useState<string>("");
+  const [alertDescription, setAlertDescription] = useState<string>("");
   const [validation, setValidation] = useState("");
   const [loading, setLoading] = useState(false);
   const form = useForm({
@@ -59,10 +61,53 @@ const Login = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const router = useRouter();
+  // async function onSubmit(values: { email: string; password: string }) {
+  //   const { email, password } = values;
+  //   setValidation("");
+  //   setLoading(true);
+  //   const isApproved = await isBusinessApproved(email);
+  //   console.log("isApproved", isApproved);
+
+  //   if (typeof isApproved === "boolean" && isApproved) {
+  //     console.log("success");
+  //     try {
+  //       const user = await signInWithEmailAndPassword(auth, email, password);
+  //       const userObj = {
+  //         email: user.user.email,
+  //         uid: user.user.uid,
+  //       };
+  //       console.log("🚀 ~ onSubmit ~ user:", user);
+  //       sessionStorage.setItem("isAdmin", "false");
+  //       sessionStorage.setItem("isLoggedIn", "true");
+  //       Cookies.set("isAdmin", "false"); // Set the isAdmin cookie
+  //       Cookies.set("isLoggedIn", "true"); // Set the isLoggedIn cookie
+  //       Cookies.set("user", JSON.stringify(userObj));
+
+  //       setLoading(false);
+  //       toast.success("Login Successful");
+  //       router.push("/businessDashboard");
+  //     } catch (error) {
+  //       console.error("Error logging in:", error);
+  //       setValidation("Invalid email or password");
+  //       setLoading(false);
+  //     }
+  //   } else {
+  //     setLoading(false);
+  //     if (typeof isApproved === "object" && isApproved.message) {
+  //       setValidation("Invalid email or password");
+  //     } else {
+  //       if (triggerRef.current) {
+  //         triggerRef.current.click();
+  //       }
+  //     }
+  //   }
+  // }
+
   async function onSubmit(values: { email: string; password: string }) {
     const { email, password } = values;
     setValidation("");
     setLoading(true);
+
     const isApproved = await isBusinessApproved(email);
     console.log("isApproved", isApproved);
 
@@ -91,41 +136,31 @@ const Login = () => {
       }
     } else {
       setLoading(false);
+
       if (typeof isApproved === "object" && isApproved.message) {
-        setValidation("Invalid email or password");
+        setValidation(isApproved.message);
+      } else if (
+        typeof isApproved === "object" &&
+        isApproved.status === "blocked"
+      ) {
+        if (triggerRef.current) {
+          setAlertTitle("This business if restricted");
+          setAlertDescription(
+            "Your account has been blocked. Please contact the admin for more information."
+          );
+          triggerRef.current.click();
+        }
       } else {
         if (triggerRef.current) {
+          setAlertTitle("Your request is not approved yet");
+          setAlertDescription(
+            "Your request is not approved yet. Please wait for the approval. We will notify you once your request is approved, Thank you."
+          );
           triggerRef.current.click();
         }
       }
     }
   }
-
-  // async function onSubmit(values: { email: string; password: string }) {
-  //   const { email, password } = values;
-  //   setLoading(true);
-  //   const isApproved = await isBusinessApproved(email);
-  //   console.log("isApproved", isApproved);
-  //   if (isApproved) {
-  //     console.log("success");
-  //     // try {
-  //     //   await signInWithEmailAndPassword(auth, email, password);
-  //     //   toast.success("Login Successfull");
-  //     //   router.push("/businessDashboard");
-  //     // } catch (error) {
-  //     //   console.error("Error logging in:", error);
-  //     //   setValidation("Invalid email or password");
-  //     // }
-  //   } else {
-  //     setLoading(false);
-  //     isApproved.message
-  //       ? toast.error(isApproved.message)
-  //       : toast.error("Your request is not approved yet");
-  //     return;
-  //   }
-
-  //   // router.push("/businessDashboard");
-  // }
 
   return (
     <div className="flex items-center justify-center min-h-svh w-full">
@@ -135,6 +170,7 @@ const Login = () => {
           alt="Login"
           width={1000}
           height={800}
+          priority
           className="
           object-cover
           object-center
@@ -145,6 +181,7 @@ const Login = () => {
         <Image
           src="/images/Group.png"
           alt="Login"
+          priority
           width={1000}
           height={800}
           className="
@@ -173,11 +210,10 @@ const Login = () => {
             />
             <AlertDialogHeader className=" pb-8">
               <AlertDialogTitle className="text-2xl text-center mb-4">
-                Your request is not approved yet
+                {alertTitle}
               </AlertDialogTitle>
               <p className="text-gray-500   font-thin text-center">
-                Your request is not approved yet. Please wait for the approval.
-                We will notify you once your request is approved, Thank you.
+                {alertDescription}
               </p>
             </AlertDialogHeader>
             <AlertDialogFooter>

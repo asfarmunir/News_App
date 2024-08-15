@@ -56,3 +56,20 @@ export type SearchParamProps = {
   params: { id: string };
   searchParams: { [key: string]: string | string[] | undefined };
 };
+
+export function getCurrentTime() {
+  const date = new Date();
+  let hours = date.getHours();
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  const day = date.getDate();
+  const monthNames = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+  const month = monthNames[date.getMonth()];
+  const year = date.getFullYear();
+  const formattedTime = ` ${day} ${month} ${year}`;
+  return formattedTime;
+}
+

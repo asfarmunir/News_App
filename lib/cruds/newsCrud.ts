@@ -39,7 +39,19 @@ export async function addAlert(data: any) {
   }
 }
 
-export const getTotalAlerts = async (email: string) =>
+export const getTotalAlertCount = async () => {
+  try {
+         const q = query(collectionRef);
+    const totalAlerts =  await getCountFromServer(q)
+    return totalAlerts.data().count;
+    
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+export const getTotalAlertsOfBusiness = async (email: string) =>
 {
   
   try {
@@ -52,9 +64,10 @@ export const getTotalAlerts = async (email: string) =>
   }
 }
 
-export const deleteAlert = async (id: string) => {
+export const deleteAlert = async (id: any) => {
+  console.log("🚀 ~ deleteAlert ~ id", id)
   try {
-    await deleteDoc(doc(collectionRef, id));
+    await deleteDoc(doc(collectionRef, id.newsId));
     return {
       status: 201,
       message: "Alert deleted successfully"

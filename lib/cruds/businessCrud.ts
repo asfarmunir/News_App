@@ -45,15 +45,20 @@ export async function isBusinessApproved(email: string) {
   const business = await getDoc(businessRef);
 
   if (business.exists()) {
-    console.log("business", business.data());
-    return business.data().requestAccepted;
+    const data = business.data();
+    console.log("business", data);
+
+    if (data.isRestricted) {
+      return { 
+        status: "blocked"
+       };
+    }
+
+    return data.requestAccepted;
   } else {
-    return {
-      message: "Invalid Credentials"
-    };
+    return { message: "Invalid Credentials" };
   }
 }
-
 
 export function getAllApprovalRequests(callback: (requests: any[]) => void) {
   try {
@@ -121,5 +126,56 @@ export const getAllBusinesses = async () => {
   } catch (error) {
     console.error("Error fetching businesses or alerts:", error);
     return [];
+  }
+}
+
+export const getTotalBusinesses = async () => {
+  try {
+    const q = query(collectionRef, where("requestAccepted", "==", true));
+     const total =  await getCountFromServer(q)
+    return total.data().count;
+  } catch (error) {
+    console.error("Error fetching businesses:", error);
+    return 0;
+  }
+}
+
+export const blockBusiness = async (email: string) => {
+  const businessRef = doc(collectionRef, email);
+  try {
+    await updateDoc(businessRef, {
+      isRestricted: true,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const unBlockBusiness = (email:string)=>{
+  try {
+    const businessRef = doc(collectionRef, email);
+    if(businessRef)
+    {
+      updateDoc(businessRef, {
+        isRestricted: false,
+      });
+    }
+  } catch (error) {
+    
+  }
+}
+
+export const toggleBusinessRestriction = async (email: string) => {
+  const businessRef = doc(collectionRef, email);
+  try {
+    const business = await getDoc(businessRef);
+    if (business.exists()) {
+      const isRestricted = business.data().isRestricted;
+      await updateDoc(businessRef, {
+        isRestricted: !isRestricted,
+      });
+    }
+  } catch (error) {
+    console.error(error);
   }
 }

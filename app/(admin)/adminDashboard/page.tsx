@@ -3,7 +3,14 @@ import { PiNewspaperFill } from "react-icons/pi";
 import Image from "next/image";
 import BusinessGraph from "@/components/shared/BusinessGraph";
 import BusinessStats from "@/components/shared/BusinessStats";
-const page = () => {
+import { getTotalAlertCount } from "@/lib/cruds/newsCrud";
+import { getTotalBusinesses } from "@/lib/cruds/businessCrud";
+
+const page = async () => {
+  const alertsCount = await getTotalAlertCount();
+  const totalBusinesses = await getTotalBusinesses();
+  console.log("🚀 ~ page ~ totalBusinesses:", totalBusinesses);
+
   return (
     <div className=" flex flex-col items-start justify-start p-4 bg-slate-50 w-full">
       <div className=" flex items-center justify-normal flex-wrap sm:flex-nowrap gap-2 md:gap-6  p-4 w-full">
@@ -13,7 +20,9 @@ const page = () => {
               Total Businesses
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              1200
+              {totalBusinesses! < 10 && totalBusinesses! > 0
+                ? `0${totalBusinesses}`
+                : totalBusinesses}
             </h1>
           </div>
           <Image
@@ -30,7 +39,9 @@ const page = () => {
               Total Alerts
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              830
+              {alertsCount! < 10 && alertsCount! > 0
+                ? `0${alertsCount}`
+                : alertsCount}
             </h1>
           </div>
           <Image
@@ -47,7 +58,7 @@ const page = () => {
               Pending Requests
             </p>
             <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              830
+              230
             </h1>
           </div>
           <Image

@@ -1,7 +1,7 @@
 import React from "react";
 import Graph from "@/components/shared/Graph";
 import Image from "next/image";
-import { getTotalAlerts } from "@/lib/cruds/newsCrud";
+import { getTotalAlertsOfBusiness } from "@/lib/cruds/newsCrud";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getBusinessFollowers } from "@/lib/cruds/businessCrud";
@@ -19,7 +19,7 @@ const Page = async () => {
     redirect("/");
   }
   const userData = JSON.parse(userCookie?.value) as IUser;
-  const alertsCount = await getTotalAlerts(userData.email);
+  const alertsCount = await getTotalAlertsOfBusiness(userData.email);
   const followers = await getBusinessFollowers(userData.email);
 
   return (

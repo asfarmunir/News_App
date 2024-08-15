@@ -154,9 +154,9 @@ const Page = () => {
                       <DropdownMenuContent>
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-12 py-3">
+                        {/* <DropdownMenuItem className="bg-slate-100 my-1 font-semibold text-slate-900 text-center w-full px-12 py-3">
                           Hide Alert
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
                         <DropdownMenuSeparator />
 
                         <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-12 py-3">

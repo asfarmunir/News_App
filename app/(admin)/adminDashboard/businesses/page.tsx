@@ -50,9 +50,10 @@ import {
   where,
 } from "firebase/firestore";
 import db from "@/lib/firebaseConfig";
-import { getAllBusinesses } from "@/lib/cruds/businessCrud";
+import { toggleBusinessRestriction } from "@/lib/cruds/businessCrud";
 import { ThreeDots } from "react-loader-spinner";
-
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const Page = () => {
   const collectionRef = collection(db, "businesses");
   const alertsCollectionRef = collection(db, "alerts");
@@ -230,17 +231,26 @@ const Page = () => {
       return () => unsub();
     }
   };
+  const router = useRouter();
+
+  const block = async (email: string) => {
+    toast.loading("Blocking business...");
+    await toggleBusinessRestriction(email);
+    toast.dismiss();
+    toast.success("Business blocked successfully!");
+    router.refresh();
+  };
 
   return (
     <div className=" flex flex-col items-start justify-start p-4 gap-6 bg-slate-50 w-full">
-      <div className="flex items-center justify-start gap-3 md:gap-6  ">
-        <Link href={"/adminDashboard/businesses/add"}>
+      <div className="flex items-center justify-start gap-3 md:gap-6 px-5  ">
+        {/* <Link href={"/adminDashboard/businesses/add"}>
           <Button className=" ml-2  md:ml-4 bg-primary text-xs md:text-lg text-white px-3 md:px-10 py-2 md:py-7 rounded-lg">
             {" "}
             Add Business{" "}
             <IoMdAdd className="w-3 md:w-6 h-3 md:h-6 ml-5 text-black bg-brown  rounded-lg " />
           </Button>
-        </Link>
+        </Link> */}
         <Link href={"/adminDashboard/businesses/joinRequests"}>
           <Button className=" relative  bg-primary text-xs md:text-lg text-white px-3 md:px-10 py-2 md:py-7 rounded-lg">
             {" "}
@@ -255,17 +265,17 @@ const Page = () => {
         </Link>
       </div>
       <div className=" bg-white p-5 px-2 md:px-8 rounded-md shadow-sm w-full">
-        <div className=" w-full flex items-center  justify-between mb-4">
+        <div className=" w-full flex items-center  justify-between mb-4 my-3">
           <h2 className=" text-slate-900 font-bold text-2xl ">
             Registered Businesses
           </h2>
-          <Image
+          {/* <Image
             src={"/icons/filter.svg"}
             width={35}
             height={35}
             alt="icon"
             className=" hover:shadow-2xl hover:cursor-pointer"
-          />
+          /> */}
         </div>
         <Table>
           <TableHeader className=" bg-brown/50">
@@ -295,20 +305,27 @@ const Page = () => {
           </TableHeader>
           <TableBody>
             {businesses.map((business: any, index: number) => (
-              <TableRow key={index}>
+              <TableRow
+                key={index}
+                className={`${
+                  business.isRestricted &&
+                  business.isRestricted === true &&
+                  " bg-red-100"
+                }`}
+              >
                 <TableCell className="font-thin border-b pb-4 pt-4 text-center text-slate-500 border-slate-200">
                   #{index + 1}
                 </TableCell>
-                <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                <TableCell className="font-thin capitalize border-b pb-4 pt-4 border-slate-200">
                   {business.BusinessName}
                 </TableCell>
-                <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                <TableCell className="font-thin capitalize border-b pb-4 pt-4 border-slate-200">
                   {business.BusinessOwnerName}
                 </TableCell>
                 <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
                   {business.PhoneNumber}
                 </TableCell>
-                <TableCell className="font-thin border-b pb-4 pt-4 border-slate-200">
+                <TableCell className="font-thin capitalize border-b pb-4 pt-4 border-slate-200">
                   {business.BusinessCategory}
                 </TableCell>
                 <TableCell className="font-semibold text-center border-b pb-4 pt-4 border-slate-200">
@@ -319,7 +336,7 @@ const Page = () => {
                   })}
                 </TableCell>
                 <TableCell className="font-semibold tracking-wider underline border-b pb-4 pt-4 text-center text-indigo-500 border-slate-200">
-                  {business.totalAlerts < 10
+                  {business.totalAlerts < 10 && business.totalAlerts > 0
                     ? `0${business.totalAlerts}`
                     : business.totalAlerts}
                 </TableCell>
@@ -331,14 +348,25 @@ const Page = () => {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
+                      {/* <DropdownMenuItem className="bg-slate-50 my-1 font-semibold text-slate-900 text-center w-full px-8 py-3">
                         Restrict Business
-                      </DropdownMenuItem>
+                      </DropdownMenuItem> */}
                       <DropdownMenuSeparator />
-
-                      <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3">
-                        Block Business
-                      </DropdownMenuItem>
+                      {business.isRestricted ? (
+                        <DropdownMenuItem
+                          onClick={() => block(business.email)}
+                          className="bg-green-100 my-1 font-semibold text-green-700 text-center w-full px-8 py-3"
+                        >
+                          Unblock
+                        </DropdownMenuItem>
+                      ) : (
+                        <DropdownMenuItem
+                          onClick={() => block(business.email)}
+                          className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-8 py-3"
+                        >
+                          Block Business
+                        </DropdownMenuItem>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
