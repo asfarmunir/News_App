@@ -24,20 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setLoading(true);
       if (user) {
-        // console.log("AuthProvider -> user", user);
-        const userDoc = await getDoc(doc(db, "businesses", "admin@gmail.com"));
-        // console.log("AuthProvider -> userDoc", userDoc);
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          const isAdmin = userData.isAdmin || false;
-          const extendedUser = { ...user, isAdmin };
-          setUser(extendedUser);
-        } else {
-          const extendedUser = { ...user, isAdmin: false };
-          setUser(extendedUser);
-        }
-      } else {
-        setUser(null);
+        setUser(user);
       }
       setLoading(false);
     });

@@ -179,3 +179,15 @@ export const toggleBusinessRestriction = async (email: string) => {
     console.error(error);
   }
 }
+
+export const getBusinessDetails = async (email: string) => {
+  const businessDoc = doc(collectionRef, email);
+  const businessSnapshot = await getDoc(businessDoc);
+
+  if (businessSnapshot.exists()) {
+    return businessSnapshot.data();
+  } else {
+    console.error("No such business!");
+    return null;
+  }
+};

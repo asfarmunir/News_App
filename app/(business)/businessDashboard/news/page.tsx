@@ -61,7 +61,7 @@ import {
 } from "firebase/firestore";
 import db from "@/lib/firebaseConfig";
 import { ThreeDots } from "react-loader-spinner";
-import { deleteAlert } from "@/lib/cruds/newsCrud";
+import { removeAlert } from "@/lib/cruds/newsCrud";
 
 interface IAlert {
   name: string;
@@ -175,7 +175,7 @@ const Page = () => {
 
   const deleteHandler = (id: string) => async () => {
     setLoading(true);
-    await deleteAlert(id);
+    await removeAlert(id);
     setCount(count - 1);
     setLoading(false);
   };

@@ -77,6 +77,7 @@ export const deleteAlert = async (id: any) => {
   }
 }
 
+
 interface IAlert {
   name: string;
   description: string;
@@ -210,6 +211,18 @@ export const getAllAlertsforStats = async () => {
       alerts.push(doc.data() as IAlert);
     });
     return alerts as IAlert[];
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const removeAlert = async (id: any) => {
+  try {
+    await deleteDoc(doc(collectionRef, id));
+    return {
+      status: 201,
+      message: "Alert deleted successfully"
+    }
   } catch (error) {
     console.error(error)
   }

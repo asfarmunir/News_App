@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,36 +20,66 @@ import { Input } from "@/components/ui/input";
 import { IoArrowBack } from "react-icons/io5";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { ColorRing } from "react-loader-spinner";
+import { useAuth } from "@/utils/AuthProvider";
+import { getBusinessDetails } from "@/lib/cruds/businessCrud";
+import { addFollowRequest } from "@/lib/cruds/userCrud";
 const formSchema = z.object({
-  name: z.string().min(3, {
-    message: "email must be at least 8 characters.",
-  }),
   email: z.string().email({
     message: "Please enter a valid email.",
   }),
-  phoneNumber: z.string().min(8, {
-    message: "phone number must be at least 8 characters.",
-  }),
-  location: z.string().min(8, {
-    message: "location must be at least 8 characters.",
-  }),
+  // phoneNumber: z.string().min(8, {
+  //   message: "phone number must be at least 8 characters.",
+  // }),
+  // location: z.string().min(8, {
+  //   message: "location must be at least 8 characters.",
+  // }),
 });
 
-const page = () => {
+const Page = () => {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [businessData, setBusinessData] = useState<any>(null);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "asfar",
-      email: "asfar@asfar.com",
-      phoneNumber: "23232323",
-      location: "Islamabad Pakistan",
+      email: "",
     },
   });
 
+  useEffect(() => {
+    if (user) {
+      details();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+  const details = async () => {
+    const data = await getBusinessDetails(user.email);
+    setBusinessData(data);
+    console.log(data);
+  };
+
+  const [validations, setValidations] = useState<string>("");
+
   const router = useRouter();
-  async function onSubmit(values) {
-    console.log(values);
+  async function onSubmit(values: any) {
+    setValidations("");
+    setLoading(true);
+    const data = {
+      businessId: businessData.businessId,
+      businessName: businessData.BusinessName,
+      businessEmail: businessData.email,
+      businessFollowers: businessData.followers,
+    };
+    const res = await addFollowRequest(values.email, data);
+    if (!res.success) {
+      setValidations(res.message);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    toast.success("Follower added successfully");
     router.push("/businessDashboard/followers/add/success");
   }
   return (
@@ -81,31 +111,11 @@ const page = () => {
             <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-16">
               <FormField
                 control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Name"
-                        {...field}
-                        className="shadow appearance-none border rounded-xl bg-brown-50 w-full  sm:w-[95%]  py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
                 name="email"
                 render={({ field }) => (
                   <FormItem className="mb-4 w-full">
                     <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Email
+                      User Email
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -116,49 +126,11 @@ const page = () => {
                       />
                     </FormControl>
                     <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-2 md:gap-16">
-              <FormField
-                control={form.control}
-                name="phoneNumber"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Phone Number
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="  Phone Number"
-                        {...field}
-                        className="shadow appearance-none border rounded-xl bg-brown-50  w-full  md:w-[95%] py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem className="mb-4 w-full">
-                    <FormLabel className="block text-lg text-gray-600  mb-2">
-                      Location
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Location"
-                        {...field}
-                        className="shadow appearance-none border rounded-xl bg-brown-50  w-full py-8 px-6 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
-                      />
-                    </FormControl>
-                    <FormMessage />
+                    {validations && (
+                      <FormDescription className="text-red-500 font-semibold">
+                        {validations}
+                      </FormDescription>
+                    )}
                   </FormItem>
                 )}
               />
@@ -169,25 +141,25 @@ const page = () => {
                 type="submit"
                 className="bg-slate-700 w-full rounded-lg hover:bg-slate-600 mt-5 text-white font-semibold py-7 px-10 text-lg   focus:outline-none focus:shadow-outline"
               >
-                {/* {loading ? (
-                      <ColorRing
-                        visible={true}
-                        height="35"
-                        width="35"
-                        ariaLabel="color-ring-loading"
-                        wrapperStyle={{}}
-                        wrapperClass="color-ring-wrapper"
-                        colors={[
-                          "#ffffff",
-                          "#ffffff",
-                          "#ffffff",
-                          "#ffffff",
-                          "#ffffff",
-                        ]}
-                      />
-                    ) : ( */}
-                <span className=" capitalize">Add Follower</span>
-                {/* )} */}
+                {loading ? (
+                  <ColorRing
+                    visible={true}
+                    height="35"
+                    width="35"
+                    ariaLabel="color-ring-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="color-ring-wrapper"
+                    colors={[
+                      "#ffffff",
+                      "#ffffff",
+                      "#ffffff",
+                      "#ffffff",
+                      "#ffffff",
+                    ]}
+                  />
+                ) : (
+                  <span className=" capitalize">Add Follower</span>
+                )}
               </Button>
             </div>
           </form>
@@ -197,4 +169,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

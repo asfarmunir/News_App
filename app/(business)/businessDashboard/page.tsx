@@ -91,9 +91,17 @@ const Page = async () => {
             <p className=" font-semibold text-xs md:text-base text-slate-400">
               Accepted Requests
             </p>
-            <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
-              600
-            </h1>
+            {followers ? (
+              <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+                {followers.length < 10 && followers.length > 0
+                  ? `0${followers.length}`
+                  : followers.length}
+              </h1>
+            ) : (
+              <h1 className=" text-xl md:text-3xl font-bold text-slate-700">
+                0
+              </h1>
+            )}
           </div>
           <Image
             src={"/icons/addUser.svg"}

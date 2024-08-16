@@ -10,8 +10,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Image from "next/image";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import db from "@/lib/firebaseConfig";
+import { useAuth } from "@/utils/AuthProvider";
 
 interface NewsItem {
   creatorEmail: string;
@@ -262,8 +263,10 @@ const Graph: React.FC<GraphProps> = ({ news }) => {
 };
 
 // Replace this with a real Firestore fetch function
-const fetchNewsFromFirestore = async (): Promise<NewsItem[]> => {
-  const querySnapshot = await getDocs(collection(db, "alerts"));
+const fetchNewsFromFirestore = async (email: string): Promise<NewsItem[]> => {
+  const ref = collection(db, "alerts");
+  const q = query(ref, where("creatorEmail", "==", email));
+  const querySnapshot = await getDocs(q);
   const newsData = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     timestamp: doc.data().timestamp, // assuming timestamp is a Firebase Timestamp
@@ -273,14 +276,19 @@ const fetchNewsFromFirestore = async (): Promise<NewsItem[]> => {
 
 const App: React.FC = () => {
   const [news, setNews] = useState<NewsItem[]>([]);
+  const { user } = useAuth();
 
   useEffect(() => {
-    const fetchData = async () => {
-      const newsData = await fetchNewsFromFirestore();
-      setNews(newsData);
-    };
-    fetchData();
-  }, []);
+    if (user) {
+      fetchData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  const fetchData = async () => {
+    const newsData = await fetchNewsFromFirestore(user.email);
+    setNews(newsData);
+  };
 
   return (
     <div className="w-full">
