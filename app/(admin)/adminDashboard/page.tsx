@@ -4,16 +4,12 @@ import Image from "next/image";
 import BusinessGraph from "@/components/shared/BusinessGraph";
 import BusinessStats from "@/components/shared/BusinessStats";
 import { getTotalAlertCount } from "@/lib/cruds/newsCrud";
-import { getTotalBusinesses } from "@/lib/cruds/businessCrud";
+import AdminFigures from "@/components/shared/AdminFigures";
 
 const page = async () => {
-  const alertsCount = await getTotalAlertCount();
-  const totalBusinesses = await getTotalBusinesses();
-  console.log("🚀 ~ page ~ totalBusinesses:", totalBusinesses);
-
   return (
     <div className=" flex flex-col items-start justify-start p-4 bg-slate-50 w-full">
-      <div className=" flex items-center justify-normal flex-wrap sm:flex-nowrap gap-2 md:gap-6  p-4 w-full">
+      {/* <div className=" flex items-center justify-normal flex-wrap sm:flex-nowrap gap-2 md:gap-6  p-4 w-full">
         <div className=" bg-white flex flex-row sm:flex-col  items-start justify-between sm:justify-start pl-6 py-4 w-full ">
           <div>
             <p className=" font-semibold text-xs md:text-base text-slate-400">
@@ -86,8 +82,8 @@ const page = async () => {
             alt="img"
           />
         </div>
-      </div>
-
+      </div> */}
+      <AdminFigures />
       <BusinessGraph />
       <BusinessStats />
       {/* <div className=" bg-white p-5 rounded-lg w-full">

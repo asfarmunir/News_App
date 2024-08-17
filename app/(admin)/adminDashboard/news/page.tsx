@@ -93,15 +93,15 @@ const Page = ({ searchParams }: SearchParamProps) => {
       <div className=" w-full flex gap-4 items-center justify-start mt-4 px-6">
         {searchText !== "" && (
           <>
-            <div className="flex flex-row  items-center mb-7 justify-start flex-nowrap">
+            <div className="flex flex-row w-full gap-4  items-center mb-7 justify-start flex-nowrap">
               <h2 className="text-lg font-normal ml-4 text-nowrap">
                 Showing Posts for{" "}
                 <span className="text-gray-800 font-semibold capitalize">
                   {searchText}
                 </span>
               </h2>
+              <div className=" w-full border border-slate-300/80"></div>
             </div>
-            <div className=" w-full border border-slate-300/80"></div>
           </>
         )}
       </div>

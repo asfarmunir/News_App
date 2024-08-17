@@ -200,12 +200,16 @@ const Login = () => {
           </AlertDialogTrigger>
           <AlertDialogContent className=" bg-white flex flex-col items-center justify-center">
             <Image
-              src="/images/reqSent.png"
+              src="/images/warning.png"
               alt="sent"
-              width={180}
-              height={180}
+              width={130}
+              height={130}
               className="
-                 mb-4
+                 my-4
+                 w-32
+                  h-32
+                  object-cover
+                  object-center
                 "
             />
             <AlertDialogHeader className=" pb-8">

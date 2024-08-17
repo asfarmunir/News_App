@@ -102,18 +102,16 @@ export const getBusinessFollowers = async (businessEmail: string) => {
 
 export const getAllBusinesses = async () => {
   try {
-    const q = query(collectionRef, where("requestAccepted", "==", true));
+    const q = query(collectionRef);
     const querySnapshot = await getDocs( q);
     const businesses = await Promise.all(
       querySnapshot.docs.map(async (doc) => {
         const businessData = doc.data();
         const businessId = businessData.businessId;
-
         const alertsQuery = query(alertsCollectionRef, where("creatorId", "==", businessId));
         const alertsSnapshot = await getDocs(alertsQuery);
         const totalAlerts = alertsSnapshot.size; // Count of alerts
 
-        // Return business data along with the total alerts count
         return {
           ...businessData,
           totalAlerts,
@@ -121,7 +119,6 @@ export const getAllBusinesses = async () => {
       })
     );
     
-    console.log("🚀 ~ getAllBusinesses ~ businesses:", businesses);
     return businesses;
   } catch (error) {
     console.error("Error fetching businesses or alerts:", error);
@@ -129,16 +126,37 @@ export const getAllBusinesses = async () => {
   }
 }
 
-export const getTotalBusinesses = async () => {
+export const getBusinessStats = async () => {
   try {
-    const q = query(collectionRef, where("requestAccepted", "==", true));
-     const total =  await getCountFromServer(q)
-    return total.data().count;
+    // Query to get the count of businesses with accepted requests
+    const acceptedQuery = query(collectionRef, where("requestAccepted", "==", true));
+    const acceptedCountResult = await getCountFromServer(acceptedQuery);
+    const acceptedCount = acceptedCountResult.data().count;
+
+    // Query to get the count of businesses with not accepted requests
+    const notAcceptedQuery = query(collectionRef, where("requestAccepted", "==", false));
+    const notAcceptedCountResult = await getCountFromServer(notAcceptedQuery);
+    const notAcceptedCount = notAcceptedCountResult.data().count;
+
+    // Query to get the total count of businesses (irrespective of request status)
+    const totalBusinessesResult = await getCountFromServer(collectionRef);
+    const total = totalBusinessesResult.data().count;
+
+    return {
+      total,
+      acceptedCount,
+      notAcceptedCount,
+    };
   } catch (error) {
-    console.error("Error fetching businesses:", error);
-    return 0;
+    console.error("Error fetching business stats:", error);
+    return {
+      total: 0,
+      acceptedCount: 0,
+      notAcceptedCount: 0,
+    };
   }
-}
+};
+
 
 export const blockBusiness = async (email: string) => {
   const businessRef = doc(collectionRef, email);
