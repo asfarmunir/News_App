@@ -46,7 +46,7 @@ const formSchema = z.object({
 });
 
 const Login = () => {
-  // ignote Eslint error
+  const [showPassword, setShowPassword] = useState(false);
   const [alertTitle, setAlertTitle] = useState<string>("");
   const [alertDescription, setAlertDescription] = useState<string>("");
   const [validation, setValidation] = useState("");
@@ -61,47 +61,6 @@ const Login = () => {
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   const router = useRouter();
-  // async function onSubmit(values: { email: string; password: string }) {
-  //   const { email, password } = values;
-  //   setValidation("");
-  //   setLoading(true);
-  //   const isApproved = await isBusinessApproved(email);
-  //   console.log("isApproved", isApproved);
-
-  //   if (typeof isApproved === "boolean" && isApproved) {
-  //     console.log("success");
-  //     try {
-  //       const user = await signInWithEmailAndPassword(auth, email, password);
-  //       const userObj = {
-  //         email: user.user.email,
-  //         uid: user.user.uid,
-  //       };
-  //       console.log("🚀 ~ onSubmit ~ user:", user);
-  //       sessionStorage.setItem("isAdmin", "false");
-  //       sessionStorage.setItem("isLoggedIn", "true");
-  //       Cookies.set("isAdmin", "false"); // Set the isAdmin cookie
-  //       Cookies.set("isLoggedIn", "true"); // Set the isLoggedIn cookie
-  //       Cookies.set("user", JSON.stringify(userObj));
-
-  //       setLoading(false);
-  //       toast.success("Login Successful");
-  //       router.push("/businessDashboard");
-  //     } catch (error) {
-  //       console.error("Error logging in:", error);
-  //       setValidation("Invalid email or password");
-  //       setLoading(false);
-  //     }
-  //   } else {
-  //     setLoading(false);
-  //     if (typeof isApproved === "object" && isApproved.message) {
-  //       setValidation("Invalid email or password");
-  //     } else {
-  //       if (triggerRef.current) {
-  //         triggerRef.current.click();
-  //       }
-  //     }
-  //   }
-  // }
 
   async function onSubmit(values: { email: string; password: string }) {
     const { email, password } = values;
@@ -204,6 +163,7 @@ const Login = () => {
               alt="sent"
               width={130}
               height={130}
+              priority
               className="
                  my-4
                  w-32
@@ -277,13 +237,17 @@ const Login = () => {
                   <FormItem className="mb-12 mt-8">
                     <FormLabel className="w-full  flex items-center justify-between text-lg text-gray-600  mb-2">
                       <p className=" text-gray-600 font-thin">Password</p>
-                      <p className="text-slate-400 text-sm font-thin">
-                        Forget Password ?
-                      </p>
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="text-slate-400 text-sm font-thin"
+                      >
+                        {showPassword ? "Hide" : "Show"} Password
+                      </button>
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="password"
+                        type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         {...field}
                         className="shadow appearance-none border  rounded-md bg-brown-50 w-full py-6 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
