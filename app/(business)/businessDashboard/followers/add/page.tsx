@@ -69,7 +69,7 @@ const Page = () => {
       businessId: businessData.businessId,
       businessName: businessData.BusinessName,
       businessEmail: businessData.email,
-      businessFollowers: businessData.followers,
+      businessFollowers: businessData.followers.length,
     };
     const res = await addFollowRequest(values.email, data);
     if (!res.success) {

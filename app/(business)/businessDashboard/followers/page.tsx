@@ -22,9 +22,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { getBusinessFollowers } from "@/lib/cruds/businessCrud";
+import { getBusinessFollowers, removeFollower } from "@/lib/cruds/businessCrud";
 import { fetchUserDetails } from "@/lib/cruds/userCrud";
 import { ThreeDots } from "react-loader-spinner";
+import toast from "react-hot-toast";
 
 interface Follower {
   userId: string;
@@ -32,6 +33,7 @@ interface Follower {
 }
 
 interface User {
+  id: string;
   name: string;
   email: string;
   phoneNumber: string;
@@ -59,8 +61,10 @@ const Page = () => {
           const usersArray: User[] = [];
           for (const follower of businessFollowers) {
             const user = await fetchUserDetails(follower.userId);
+            console.log("🚀 ~ BusinessDetails ~ user:", user);
             if (user) {
               usersArray.push({
+                id: follower.userId,
                 name: user.name,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
@@ -89,6 +93,19 @@ const Page = () => {
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
+  };
+
+  const removeHandler = async (userId: string) => {
+    toast.loading("Removing follower...");
+    const res = await removeFollower(user.email, userId);
+    if (res.success) {
+      toast.dismiss();
+      toast.success(res.message);
+      setUsers(users.filter((user) => user.id !== userId));
+    } else {
+      toast.dismiss();
+      toast.error(res.message);
+    }
   };
 
   return (
@@ -158,8 +175,11 @@ const Page = () => {
                       <DropdownMenuContent>
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-12 py-3">
-                          Block User
+                        <DropdownMenuItem
+                          onClick={() => removeHandler(user.id)}
+                          className="bg-red-100 my-1 font-semibold text-red-700 text-center w-full px-12 py-3"
+                        >
+                          Remove Follower
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -186,7 +206,7 @@ const Page = () => {
 
         <div className=" w-full flex items-center justify-between mt-3 gap-4">
           <p className="font-semibold text-xs md:text-sm text-slate-800">
-            Total Followers: {followers.length}
+            Total Followers: {users.length}
           </p>
           {followers.length > 0 && (
             <div className="hidden md:flex items-center gap-2">

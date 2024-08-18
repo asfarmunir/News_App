@@ -21,7 +21,6 @@ const businessCollectionRef = collection(db, 'businesses');
 
 
 export const fetchUserDetails = async (userId: string) => {
-  console.log("🚀 ~ fetchUserDetails ~ userId:", userId)
   const userDoc = doc(collectionRef, userId);
   const userSnapshot = await getDoc(userDoc);
 
@@ -153,7 +152,6 @@ export const addFollowRequest = async (userEmail: string, businessData: any) => 
       ...businessData,
     };
 
-    console.log("🚀 ~ addFollowRequest ~ newRequest", newRequest);
 
     const updatedFollowRequests = [...followRequests, newRequest];
 
@@ -162,7 +160,6 @@ export const addFollowRequest = async (userEmail: string, businessData: any) => 
 
     return { success: true, message: "Follow request added successfully." };
   } catch (error) {
-    console.error("Error adding follow request:", error);
     return { success: false, message: "An error occurred while adding the follow request." };
   }
 };

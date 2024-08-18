@@ -19,6 +19,7 @@ import db from '@/lib/firebaseConfig';
 import { v4} from 'uuid';
 const collectionRef = collection(db, 'businesses');
 const alertsCollectionRef = collection(db, 'alerts');
+const usersCollectionRef = collection(db, 'users');
 
 
 
@@ -207,5 +208,93 @@ export const getBusinessDetails = async (email: string) => {
   } else {
     console.error("No such business!");
     return null;
+  }
+};
+
+
+//   export const removeFollower = async (businessEmail: string, followerId: string) => {
+//   try {
+//     // Reference to the business document
+//     const businessRef = doc(collectionRef, businessEmail);
+    
+//     // Get the business document
+//     const businessSnapshot = await getDoc(businessRef);
+    
+//     if (!businessSnapshot.exists()) {
+//       console.error("Business does not exist.");
+//       return { success: false, message: "Business not found." };
+//     }
+
+//     // Get the current followers array
+//     const businessData = businessSnapshot.data();
+//     const followers = businessData.followers || [];
+
+//     // Filter out the follower whose userId matches the followerId
+//     const updatedFollowers = followers.filter(
+//       (follower: { userId: string; followedOn: any }) => follower.userId !== followerId
+//     );
+
+//     // Update the business document with the new followers array
+//     await updateDoc(businessRef, { followers: updatedFollowers });
+
+//     return { success: true, message: "Follower removed successfully." };
+//   } catch (error) {
+//     console.error("Error removing follower:", error);
+//     return { success: false, message: "An error occurred while removing the follower." };
+//   }
+// };
+
+export const removeFollower = async (businessEmail: string, followerId: string) => {
+  try {
+    // Reference to the business document
+    const businessRef = doc(collectionRef, businessEmail);
+    
+    // Get the business document
+    const businessSnapshot = await getDoc(businessRef);
+    
+    if (!businessSnapshot.exists()) {
+      console.error("Business does not exist.");
+      return { success: false, message: "Business not found." };
+    }
+
+    // Get the current followers array
+    const businessData = businessSnapshot.data();
+    const followers = businessData.followers || [];
+
+    // Filter out the follower whose userId matches the followerId
+    const updatedFollowers = followers.filter(
+      (follower: { userId: string; followedOn: any }) => follower.userId !== followerId
+    );
+
+    // Update the business document with the new followers array
+    await updateDoc(businessRef, { followers: updatedFollowers });
+
+    // Reference to the user document in the users collection
+    const userRef = doc(usersCollectionRef, followerId);
+    
+    // Get the user document
+    const userSnapshot = await getDoc(userRef);
+    
+    if (!userSnapshot.exists()) {
+      console.error("User does not exist.");
+      return { success: false, message: "User not found." };
+    }
+
+    // Get the current followedBusinesses array
+    const userData = userSnapshot.data();
+    const followedBusinesses = userData.followedBusinesses || [];
+
+    // Filter out the businessEmail from the followedBusinesses array
+    const updatedFollowedBusinesses = followedBusinesses.filter(
+      (email: string) => email !== businessEmail
+    );
+
+    // Update the user document with the new followedBusinesses array
+    await updateDoc(userRef, { followedBusinesses: updatedFollowedBusinesses });
+
+    return { success: true, message: "Follower removed successfully." };
+  } catch (error) {
+    console.error("Error removing follower and business:", error);
+    return { success: false, message: "An error occurred while removing the follower." };
   }
 };
