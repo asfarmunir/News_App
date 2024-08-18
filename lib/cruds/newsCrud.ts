@@ -16,28 +16,96 @@ import db from '@/lib/firebaseConfig';
 import { v4} from 'uuid';
 
 const collectionRef = collection(db, 'alerts');
+const businessCollectionRef = collection(db, 'businesses');
+const usersCollectionRef = collection(db, 'users');
 
+
+
+// export async function addAlert(data: any) {
+//     const id = v4();
+//     console.log("🚀 ~ id:", id)
+//   const alertData = {
+//     ...data,
+//     newsId:id,
+//     timestamp: serverTimestamp(),
+//   }
+//   console.log("alertData",alertData);
+//   try {
+//     const alertRef =  doc(collectionRef, id);    
+//      await setDoc(alertRef, alertData);
+//     return {
+//         message: "Alert added successfully"
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
 
 
 export async function addAlert(data: any) {
-    const id = v4();
-    console.log("🚀 ~ id:", id)
+  const id = v4();
+  console.log("🚀 ~ id:", id);
+
   const alertData = {
     ...data,
-    newsId:id,
+    newsId: id,
     timestamp: serverTimestamp(),
-  }
-  console.log("alertData",alertData);
+  };
+  
+  console.log("alertData", alertData);
+
   try {
-    const alertRef =  doc(collectionRef, id);    
-     await setDoc(alertRef, alertData);
-    return {
-        message: "Alert added successfully"
+    // Add the alert to the alerts collection
+    const alertRef = doc(collectionRef, id);
+    await setDoc(alertRef, alertData);
+
+    // Fetch the business document using creatorEmail
+    const businessQuery = query(businessCollectionRef, where("email", "==", data.creatorEmail));
+    const businessSnapshot = await getDocs(businessQuery);
+
+    if (businessSnapshot.empty) {
+      console.error("Business not found for the given creatorEmail.");
+      return { message: "Business not found." };
     }
+
+    // Assuming one business document per email
+    const businessDoc = businessSnapshot.docs[0];
+    const businessData :any = businessDoc.data();
+
+    const followers = businessData.followers || [];
+
+    // Iterate through each follower and add a notification
+    for (const follower of followers) {
+      const userRef = doc(usersCollectionRef, follower.userId);
+      const userSnapshot = await getDoc(userRef);
+
+      if (userSnapshot.exists()) {
+        const userData = userSnapshot.data();
+        const notifications = userData.notifications || [];
+
+        const newNotification = {
+          businessName: businessData.BusinessName, // Assuming businessData has a 'name' field
+          message: `A new alert has been added by ${businessData.BusinessName}.`,
+          timestamp: Date.now(),
+          markedAsRead: false,
+        };
+
+        const updatedNotifications = [...notifications, newNotification];
+
+        // Update the user's notifications array
+        await updateDoc(userRef, { notifications: updatedNotifications });
+      } else {
+        console.error(`User with ID ${follower.userId} not found.`);
+      }
+    }
+
+    return { message: "Alert and notifications added successfully." };
   } catch (error) {
-    console.error(error);
+    console.error("Error adding alert and notifications:", error);
+    return { message: "An error occurred while adding the alert and notifications." };
   }
 }
+
 
 export const getTotalAlertCount = async () => {
   try {

@@ -79,7 +79,7 @@ const Page = () => {
     }
 
     setLoading(false);
-    toast.success("Follower added successfully");
+    // toast.success("Follower added successfully");
     router.push("/businessDashboard/followers/add/success");
   }
   return (
