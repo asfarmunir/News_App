@@ -61,7 +61,6 @@ const Page = () => {
           const usersArray: User[] = [];
           for (const follower of businessFollowers) {
             const user = await fetchUserDetails(follower.userId);
-            console.log("🚀 ~ BusinessDetails ~ user:", user);
             if (user) {
               usersArray.push({
                 id: follower.userId,

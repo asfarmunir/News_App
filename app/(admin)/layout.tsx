@@ -72,6 +72,26 @@ export default async function RootLayout({
       ],
       href: "/adminDashboard/news",
     },
+    {
+      name: "Users",
+      icon: [
+        <Image
+          key={1}
+          src="/icons/followers.svg"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+        <Image
+          key={2}
+          src="/icons/followersWhite.png"
+          width={20}
+          height={20}
+          alt="icon"
+        />,
+      ],
+      href: "/adminDashboard/users",
+    },
   ];
   return (
     <div className={`h-screen flex bg-slate-50 `}>

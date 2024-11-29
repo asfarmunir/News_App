@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ import { addAlert } from "@/lib/cruds/newsCrud";
 import { Textarea } from "@/components/ui/textarea";
 import { ColorRing } from "react-loader-spinner";
 import { useAuth } from "@/utils/AuthProvider";
+import { getBusinessDetails } from "@/lib/cruds/businessCrud";
 
 const formSchema = z.object({
   name: z.string().min(3, {
@@ -54,6 +55,21 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { user } = useAuth();
 
+  const [userData, setUserData] = useState<any>(null);
+  console.log("🚀 ~pPage ~ userData:", userData);
+
+  useEffect(() => {
+    if (user) {
+      fetchDetails();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
+  const fetchDetails = async () => {
+    const data = await getBusinessDetails(user.email);
+    setUserData(data);
+  };
+
   interface IFormInput {
     name: string;
     link: string;
@@ -62,12 +78,15 @@ const Page = () => {
   }
 
   const router = useRouter();
+
   async function onSubmit(values: IFormInput) {
+    if (!userData) return;
     setIsLoading(true);
     const newsData = {
       ...values,
-      creatorId: user.uid,
-      creatorEmail: user.email,
+      creatorId: userData.businessId,
+      creatorEmail: userData.email,
+      businessName: userData.BusinessName,
     };
     try {
       await addAlert(newsData);

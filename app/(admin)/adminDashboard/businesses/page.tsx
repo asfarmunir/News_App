@@ -95,8 +95,6 @@ const Page = () => {
       );
 
       const unsub = onSnapshot(q, async (querySnapshot) => {
-        const items: any[] = [];
-
         const businessPromises = querySnapshot.docs.map(async (docSnapshot) => {
           const businessData = docSnapshot.data();
           const businessId = businessData.businessId;

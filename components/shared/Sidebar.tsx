@@ -22,7 +22,6 @@ const Sidebar = ({ links }: { links: ILink[] }) => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      console.log("User signed out");
       toast.success("User signed out");
       Cookies.remove("isAdmin");
       Cookies.remove("isLoggedIn");
