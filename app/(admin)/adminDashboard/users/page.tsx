@@ -34,12 +34,13 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
 import { ThreeDots } from "react-loader-spinner";
-import { getDeleteRequests, handleDeleteRequest } from "@/lib/cruds/userCrud";
+import { getDeleteRequests } from "@/lib/cruds/userCrud";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 const Page = () => {
   const [users, setUsers] = useState<any>([]);
   const [loading, setLoading] = useState(true);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   const fetchDeleteRequests = async () => {
@@ -58,12 +59,22 @@ const Page = () => {
   }, []);
 
   const handleStatusUpdate = async (userId: string, status: boolean) => {
+    setIsDeleting(true);
     try {
-      await handleDeleteRequest(userId, status);
-      toast.success("Delete request updated successfully.");
+      await fetch("/api/deleteUser", {
+        method: "POST",
+        body: JSON.stringify({ userId, requestAccepted: status }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      toast.success("Delete request updated.");
       await fetchDeleteRequests(); // Refresh the user list
     } catch (error) {
       toast.error("An error occurred while updating the delete request.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -115,14 +126,16 @@ const Page = () => {
 
                     <TableCell className="font-thin text-center border-b pb-4 pt-4  space-x-2 border-slate-200">
                       <Button
+                        disabled={isDeleting}
                         onClick={() => handleStatusUpdate(user.userId, true)}
-                        className="rounded-md inline-flex items-center hover:text-green-600 hover:bg-green-500/20 bg-green-500/30 text-green-700 px-10 py-6 gap-2"
+                        className="rounded-md disabled:opacity-40 inline-flex items-center hover:text-green-600 hover:bg-green-500/20 bg-green-500/30 text-green-700 px-10 py-6 gap-2"
                       >
                         Accept
                       </Button>
                       <Button
+                        disabled={isDeleting}
                         onClick={() => handleStatusUpdate(user.userId, false)}
-                        className="rounded-md inline-flex items-center hover:bg-red-500/20 bg-red-500/30 text-red-600 px-10 py-6 gap-2"
+                        className="rounded-md disabled:opacity-40 inline-flex items-center hover:bg-red-500/20 bg-red-500/30 text-red-600 px-10 py-6 gap-2"
                       >
                         Reject
                       </Button>

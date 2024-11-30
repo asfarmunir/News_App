@@ -10,9 +10,10 @@ import {
   where,
   deleteDoc,
 } from 'firebase/firestore';
-import db from '@/lib/firebaseConfig';
+import db, { auth } from '@/lib/firebaseConfig';
 import { v4} from 'uuid';
-import { revalidatePath } from 'next/cache';
+import { deleteUser } from 'firebase/auth';
+import { adminAuth } from '../admin/adminConfig';
 
 const collectionRef = collection(db, 'users');
 const businessCollectionRef = collection(db, 'businesses');
@@ -138,27 +139,3 @@ export const handleUserDeleteRequest = async (userId: string) => {
     return { success: false, message: "An error occurred while approving the delete request." };
   }
 }
-
-export const handleDeleteRequest = async (userId:string, requestAccepted:boolean) => {
-  console.log("🚀 ~ handleDeleteRequest ~ requestAccepted:", requestAccepted)
-  console.log("🚀 ~ handleDeleteRequest ~ userId:", userId)
-  try {
-    const userDocRef = doc(db, "users", userId); // Replace "users" with your collection name
-
-    if (requestAccepted) {
-      // Delete the user document
-      await deleteDoc(userDocRef);
-      console.log(`User with ID ${userId} has been deleted.`);
-    } else {
-      // Update the deleteRequest field to false
-      await updateDoc(userDocRef, { deleteRequest: "false" });
-      console.log(`Delete request for user with ID ${userId} has been rejected.`);
-    }
-
-
-    return true; // Indicate success
-  } catch (error) {
-    console.error("Error handling delete request:", error);
-    return false; // Indicate failure
-  }
-};
